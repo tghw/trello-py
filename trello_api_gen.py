@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+import pystache
 from urlparse import urljoin
 from BeautifulSoup import BeautifulSoup as Soup
 
@@ -21,8 +22,15 @@ def get_soup(url):
 def main():
     sections = get_sections()
     print sections
+    if not os.path.exists('trello'):
+        os.mkdir('trello')
+    modules = []
     for section in sections:
         write_section(section)
+
+    with open(os.path.join('trello', '__init__.py'), 'w') as fd:
+        trello_api = TrelloApi([module_name(section) for section in sections])
+        fd.write(trello_api.render())
 
 def get_sections():
     sections = []
@@ -51,33 +59,64 @@ def get_actions(section_url):
         actions.append((method, url, args))
     return actions
 
-def def_args(req_args, opt_args):
-    return ', '.join(req_args + [arg + '=None' for arg in opt_args])
+def function_args(url_args, id_arg, req_args, opt_args):
+    if id_arg:
+        req_args = [id_arg] + req_args
+    return ', '.join(url_args + req_args + [arg + '=None' for arg in opt_args])
+
+def request_args(request_type, req_args, opt_args):
+    get_args = []
+    post_args = []
+    if request_type in ['GET', 'DELETE']:
+        get_args += req_args
+        get_args += opt_args
+    else:
+        post_args += req_args
+        post_args += opt_args
+    params = 'dict(%s)' % ', '.join(['key=self._apikey', 'token=self._token'] + ['%s=%s' % (arg, arg) for arg in get_args])
+    data = 'dict(%s)' % ', '.join(['%s=%s' % (arg, arg) for arg in post_args]) if post_args else None
+    return 'params=%s, data=%s' % (params, data)
+
+def module_name(section_url):
+    return section_url.split('/')[-2] + 's'
 
 def write_section(section_url):
-    module = section_url.split('/')[-2]
-    if not os.path.exists('trello'):
-        os.mkdir('trello')
-    actions = get_actions(section_url)
+    module = module_name(section_url)
     with open(os.path.join('trello', '%s.py' % module), 'w') as fd:
-        for action in actions:
+        fd.write(ApiClass(section_url).render())
+
+class ApiClass(pystache.View):
+    def __init__(self, section_url):
+        super(ApiClass, self).__init__()
+        self.module = module_name(section_url)
+        self.actions = get_actions(section_url)
+
+    def class_name(self):
+        return self.module.title()
+
+    def methods(self):
+        methods = []
+        for action in self.actions:
             url_parts = action[1].split('/')
-            method_parts = [part.rstrip('s') for part in url_parts[2:] if not part.startswith('[')]
-            method_name = '%s_%s' % (METHOD_LOOKUP[action[0]], '_'.join(method_parts))
-            id_arg = [part.strip('[]').replace(' ', '_') for part in url_parts if part.startswith('[')]
-            id_arg = id_arg[0] if id_arg else None
-            req_args = [arg[0] for arg in action[2] if arg[1]]
+            method_parts = [part.rstrip('s') for part in url_parts[3:] if not part.startswith('[')]
+            method_name = '_'.join([METHOD_LOOKUP[action[0]]] + method_parts)
+            id_arg = ([part.strip('[]').replace(' ', '_') for part in url_parts if part.startswith('[')] or [None])[0]
+            url_args = [arg[0] for arg in action[2] if ('[%s]' % arg[0] in url_parts)]
+            if url_args:
+                method_name  = '%s_%s' % (method_name, '_'.join(url_args))
+            req_args = [arg[0] for arg in action[2] if arg[1] and arg[0] not in url_args]
             opt_args = [arg[0] for arg in action[2] if not arg[1]]
-            args = req_args + opt_args
-            if id_arg:
-                print >>fd, 'def %s(%s, %s):' % (method_name, id_arg, def_args(req_args, opt_args))
-                print >>fd, '    resp = requests.%s("%s" %% %s, %s)' % (action[0].lower(), re.sub(r'\[.*\]', '%s', action[1]), id_arg, ', '.join(args[1:]))
-            else:
-                print >>fd, 'def %s(%s):' % (method_name, def_args(req_args, opt_args))
-                print >>fd, '    resp = requests.%s("%s", %s)' % (action[0].lower(), action[1], ', '.join(args))
-            print >>fd, '    resp.raise_for_status()'
-            print >>fd, '    return json.loads(resp.content)'
-            print >>fd, ''
+            def_args = function_args(url_args, id_arg, req_args, opt_args)
+            args = request_args(action[0].upper(), req_args, opt_args)
+            method = action[0].lower()
+            url = '"https://trello.com%s" %% (%s)' % (re.sub(r'\[.*?\]', '%s', action[1]), ', '.join([id_arg] + url_args if id_arg else url_args))
+            methods.append(dict(def_args=def_args, args=args, method=method, url=url, name=method_name))
+        return methods
+
+class TrelloApi(pystache.View):
+    def __init__(self, sections):
+        super(TrelloApi, self).__init__()
+        self.sections = [{'module': section, 'class': section.title()} for section in sections]
 
 if __name__ == '__main__':
     main()
