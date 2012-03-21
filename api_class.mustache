@@ -1,0 +1,15 @@
+import json
+import requests
+
+class {{class_name}}(object):
+    def __init__(self, apikey, token=None):
+        self._apikey = apikey
+        self._token = token
+
+    {{#methods}}
+    def {{name}}(self, {{def_args}}):
+        resp = requests.{{method}}({{url}}, {{args}})
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    {{/methods}}

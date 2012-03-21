@@ -1,0 +1,15 @@
+from urllib import quote_plus
+{{#sections}}
+from .{{module}} import {{class}}
+{{/sections}}
+
+class TrelloApi(object):
+    def __init__(self, apikey, token=None):
+        self._apikey = apikey
+        self._token = token
+        {{#sections}}
+        self.{{module}} = {{class}}(apikey, token)
+        {{/sections}}
+
+    def get_token_url(self, app_name, expires='30days', write_access=True):
+        return 'https://trello.com/1/authorize?key=%s&name=%s&expiration=%s&response_type=token&scope=%s' % (self._apikey, quote_plus(app_name), expires, 'read,write' if write_access else 'read')
