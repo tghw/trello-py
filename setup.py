@@ -3,7 +3,7 @@ from distutils.core import setup
 from textwrap import dedent
 
 setup(name='trello',
-      version='0.9',
+      version='0.9.1',
       packages=['trello'],
       license=dedent("""\
         Copyright (c) 2012, Fog Creek Software, Inc.
@@ -45,6 +45,16 @@ setup(name='trello',
         or by using pip
 
           $ pip install trello
+
+        Documentation:
+        --------------
+        You can find documentation for the Python API at:
+
+            http://packages.python.org/trello/
+
+        And documentation for the Trello API at:
+
+            https://trello.com/docs/api/
 
         """),
       author='Fog Creek Software',
