@@ -1,0 +1,1052 @@
+/*
+ * basic.css
+ * ~~~~~~~~~
+ *
+ * Sphinx stylesheet -- basic theme.
+ *
+ * :copyright: Copyright 2007-2011 by the Sphinx team, see AUTHORS.
+ * :license: BSD, see LICENSE for details.
+ *
+ */
+
+
+/* -- reset ---------------------------------------------------------------- */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  border: 0;
+  font-family: inherit;
+  font-size: 100%;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+:focus {/* remember to define focus styles! */
+  outline: 0;
+}
+
+body {
+  background: #F0F0F0;
+}
+
+ol, ul {
+  list-style-type: none;
+  list-style-position: outside;
+}
+
+table {/* tables still need 'cellspacing="0"' in the markup */
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  font-weight: normal;
+  text-align: left;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+}
+
+blockquote, q {
+  quotes: "" "";
+}
+
+a img {
+  border: 0;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+
+/* -- typography ------------------------------------------------- */
+
+body,
+input,
+textarea {
+  color: #444;
+  font-family: 'Helvetica Neue', Arial, 'Lucida Grande', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 { 
+  color: #333; 
+  font-family: 'Helvetica Neue', Arial, 'Lucida Grande', sans-serif;
+  font-weight: 700; 
+}
+
+h1 { 
+  font-size: 34px; 
+  line-height: 38px; 
+  margin: 0 0 9px; 
+}
+
+h2 { 
+  font-size: 26px;
+  line-height: 30px; 
+  margin: 18px 0 9px;
+}
+
+h3 { 
+  font-size: 22px; 
+  line-height: 28px; 
+  margin: 18px 0 9px; 
+}
+
+h3, h4, h5, h6 { 
+  font-size: 20px; 
+  line-height: 24px; 
+  margin: 18px 0 9px;
+}
+
+.quiet { 
+  color: #999; 
+}
+
+.quiet a { 
+  color: #666; 
+}
+
+a.quiet:hover,
+.quiet a:hover { 
+  color: #333; 
+}
+
+.loud { 
+  color: #c44; 
+}
+
+.error, .errorlist li { 
+  color: #EB3800; 
+  margin-bottom: 15px; 
+}
+
+a { 
+  color: #333; 
+}
+
+a:hover { 
+  color: #666; 
+}
+
+table { 
+  margin-bottom: 15px; 
+}
+
+p { 
+  margin-bottom: 15px; 
+}
+
+pre { 
+  margin: 15px 0; 
+  white-space: pre; 
+}
+
+pre, code, tt { 
+  font-family: 'bitstream vera sans mono', 'andale mono', 'lucida console', monospace; 
+  line-height: 20px; 
+}
+
+  /* lists */
+
+  ul, ol {
+    margin: 0 0 9px 23px;
+  }
+
+  ul {
+    list-style-type: square;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ol ol {
+    list-style-type: upper-alpha;
+  }
+
+  ol ol ol {
+    list-style-type: lower-roman;
+  }
+
+  ol ol ol ol {
+    list-style-type: lower-alpha;
+  }
+
+  ul ul, ol ol, ul ol, ol ul {
+    margin-bottom: 0;
+  }
+
+  dl {
+    margin: 0 9px;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin-bottom: 9px;
+  }
+
+strong {
+  font-weight: bold;
+}
+
+cite, em, i {
+  font-style: italic;
+}
+
+blockquote {
+  font-style: italic;
+  font-weight: normal;
+  margin: 0 27px;
+}
+
+blockquote em, blockquote i, blockquote cite {
+  font-style: normal;
+}
+
+blockquote cite {
+  color: #666;
+  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+abbr, acronym, dfn {
+  border-bottom: 1px dotted #666;
+  cursor: help;
+}
+
+ins {
+  background: #fff9c0;
+  text-decoration: none;
+}
+
+sup,
+sub {
+  font-size: 10px;
+  height: 0;
+  line-height: 1;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  bottom: 1ex;
+}
+
+sub {
+  top: .5ex;
+}
+
+hr {
+  background: #b3b3b3;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075);
+  clear: both;
+  color: #b3b3b3;
+  display: block; 
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+blockquote {
+  margin: 30px 0 30px 15px;
+  border-left: 1px solid #ccc;
+  color: #666;
+  padding: 0 0 0 15px;
+  font-style: italic;
+}
+
+
+/* -- tables ---------------------------------------------------- */
+
+table, td, th { 
+background: #fff;
+  vertical-align: top; 
+  border-bottom: 1px solid #aaa; 
+  border-left: 1px solid #b3b3b3; 
+}
+
+td, th { 
+  padding: 5px; 
+  border-right: 1px solid #b3b3b3; 
+  border-top: 1px solid #b3b3b3; 
+}
+
+thead, th { 
+  background: url(/images/gradient.png) #ddd repeat-x bottom left;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  color: #444;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+table {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+
+/* -- forms ---------------------------------------------------------- */
+
+textarea,
+input {
+  -webkit-appearance: none;
+  background-color: #E6E6E6;
+  border: 1px solid #bfbfbf;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  display: block;
+  margin: 0 4px 12px 0;
+  padding: 4px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width:250px;
+  height:20px;
+  transition:background 85ms ease-in,border-color 85ms ease-in;
+  -moz-transition:background 85ms ease-in,border-color 85ms ease-in;
+  -ms-transition:background 85ms ease-in,border-color 85ms ease-in;
+  -webkit-transition:background 85ms ease-in,border-color 85ms ease-in;
+}
+
+input[type=text]:focus,
+textarea:focus {
+  color: #333;
+}
+
+textarea:hover,
+input:hover {
+  border-color: #777;
+  box-shadow: 0 2px 4px #ddd;
+  -moz-box-shadow: 0 2px 4px #ddd;
+  -webkit-box-shadow: 0 2px 4px #ddd;
+}
+
+textarea:focus,
+input:focus {
+  background: #fff;
+  border-color: #3468b2;
+  box-shadow: 0 2px 4px #88abdd;
+  -moz-box-shadow: 0 2px 4px #88abdd;
+  -webkit-box-shadow: 0 2px 4px #88abdd;
+}
+
+input[type="submit"], input[type="button"], button, .button {
+  display: inline-block;
+  font-weight: bold;
+  line-height: 20px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+
+/* -- main layout ----------------------------------------------------------- */
+
+div.clearer {
+  clear: both;
+}
+
+.header {
+  padding: 0 10px;
+}
+
+  .header-wrapper {
+    height: 30px;
+    padding: 5px 0;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+div.related {
+  padding: 10px 10px 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.document {
+  padding: 10px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.footer {
+  font-size: 14px;
+  line-height: 17px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 10px 20px;
+}
+
+  .footer-wrapper {
+    padding: 0 20px;
+  }
+
+
+/* -- header ------------------------------------------------------------------ */
+
+.header {
+  background:#1a5066;
+  background: -moz-linear-gradient(top, #1d5a72 0%, #1a5066 100%);
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #1d5a72), color-stop(100%, #1a5066));
+  background:-webkit-linear-gradient(top, #1d5a72 0%, #1a5066 100%);
+  background:-o-linear-gradient(top, #1d5a72 0%, #1a5066 100%);
+  background:-ms-linear-gradient(top, #1d5a72 0%, #1a5066 100%);
+  background:linear-gradient(top, #1d5a72 0%, #1a5066 100%);
+}
+
+  .header h3 {
+    display: none;
+  }
+
+  .header-wrapper p.logo {
+    float: left;
+    margin: 0;
+    padding: 0 10px 0 0;
+  }
+
+  .header p.visit {
+    color: #91D6F2;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+  }
+
+  .header p.visit a {
+    color: #91D6F2;
+    display: block;
+    padding: 9px 10px;
+  }
+
+  .header p.visit a:hover {
+    color: #fff;
+  }
+
+/* -- body ------------------------------------------------------------------ */
+
+.body {
+  background: #fff;
+  border-radius: 5px;
+  float: left;
+  max-width: 610px;
+  min-height: 400px;
+  padding: 20px;
+  width: 100%;
+}
+
+
+/* -- relbar ---------------------------------------------------------------- */
+
+div.related {
+  color: #999;
+}
+
+div.related a {
+  color: #999;
+}
+
+div.related a:hover {
+  color: #666;
+}
+
+div.related h3 {
+  display: none;
+}
+
+div.related ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+div.related li {
+  display: inline;
+}
+
+div.related li.right {
+  float: right;
+  margin-right: 5px;
+}
+
+
+/* -- sidebar --------------------------------------------------------------- */
+
+div.sphinxsidebarwrapper {
+}
+
+div.sphinxsidebar {
+  float: left;
+  padding: 0 0 0 20px;
+  max-width: 230px;
+}
+
+div.sphinxsidebar ul {
+}
+
+div.sphinxsidebar ul ul,
+div.sphinxsidebar ul.want-points {
+}
+
+div.sphinxsidebar ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+div.sphinxsidebar #searchbox {
+  margin-bottom: 18px;
+}
+
+div.sphinxsidebar form {
+  margin-top: 9px;
+}
+
+div.sphinxsidebar input {
+}
+
+div.sphinxsidebar input[type="text"] {
+  width: 150px;
+  float: left;
+}
+
+div.sphinxsidebar input[type="submit"] {
+  padding: 4px 8px;
+  float: left;
+}
+
+img {
+  border: 0;
+}
+
+
+/* -- search page ----------------------------------------------------------- */
+
+ul.search {
+  margin: 10px 0 0 20px;
+  padding: 0;
+}
+
+ul.search li {
+  padding: 5px 0 5px 20px;
+  background-image: url(file.png);
+  background-repeat: no-repeat;
+  background-position: 0 7px;
+}
+
+ul.search li a {
+  font-weight: bold;
+}
+
+ul.search li div.context {
+  color: #888;
+  margin: 2px 0 0 30px;
+  text-align: left;
+}
+
+ul.keywordmatches li.goodmatch a {
+  font-weight: bold;
+}
+
+
+/* -- index page ------------------------------------------------------------ */
+
+table.contentstable {
+  width: 90%;
+}
+
+table.contentstable p.biglink {
+  line-height: 150%;
+}
+
+a.biglink {
+}
+
+span.linkdescr {
+  font-style: italic;
+  padding-top: 5px;
+}
+
+
+/* -- general index --------------------------------------------------------- */
+
+table.indextable {
+  width: 100%;
+}
+
+table.indextable td {
+  text-align: left;
+  vertical-align: top;
+}
+
+table.indextable dl, table.indextable dd {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+table.indextable tr.pcap {
+  height: 10px;
+}
+
+table.indextable tr.cap {
+  margin-top: 10px;
+  background-color: #f2f2f2;
+}
+
+img.toggler {
+  margin-right: 3px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+div.modindex-jumpbox {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 1em 0 1em 0;
+  padding: 0.4em;
+}
+
+div.genindex-jumpbox {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 1em 0 1em 0;
+  padding: 0.4em;
+}
+
+
+/* -- general body styles --------------------------------------------------- */
+
+a.headerlink {
+  visibility: hidden;
+}
+
+h1:hover > a.headerlink,
+h2:hover > a.headerlink,
+h3:hover > a.headerlink,
+h4:hover > a.headerlink,
+h5:hover > a.headerlink,
+h6:hover > a.headerlink,
+dt:hover > a.headerlink {
+  visibility: visible;
+}
+
+div.body p.caption {
+  text-align: inherit;
+}
+
+div.body td {
+  text-align: left;
+}
+
+.field-list ul {
+  padding-left: 1em;
+}
+
+.first {
+  margin-top: 0 !important;
+}
+
+p.rubric {
+  margin-top: 30px;
+  font-weight: bold;
+}
+
+img.align-left, .figure.align-left, object.align-left {
+  clear: left;
+  float: left;
+  margin-right: 1em;
+}
+
+img.align-right, .figure.align-right, object.align-right {
+  clear: right;
+  float: right;
+  margin-left: 1em;
+}
+
+img.align-center, .figure.align-center, object.align-center {
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+
+/* -- sidebars -------------------------------------------------------------- */
+
+div.sidebar {
+  margin: 0 0 0.5em 1em;
+  border: 1px solid #ddb;
+  padding: 7px 7px 0 7px;
+  background-color: #ffe;
+  width: 40%;
+  float: right;
+}
+
+p.sidebar-title {
+  font-weight: bold;
+}
+
+
+/* -- topics ---------------------------------------------------------------- */
+
+div.topic {
+  border: 1px solid #ccc;
+  padding: 7px 7px 0 7px;
+  margin: 10px 0 10px 0;
+}
+
+p.topic-title {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+
+/* -- admonitions ----------------------------------------------------------- */
+
+div.admonition {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 7px;
+}
+
+div.admonition dt {
+  font-weight: bold;
+}
+
+div.admonition dl {
+  margin-bottom: 0;
+}
+
+p.admonition-title {
+  margin: 0px 10px 5px 0px;
+  font-weight: bold;
+}
+
+div.body p.centered {
+  text-align: center;
+  margin-top: 25px;
+}
+
+
+/* -- tables ---------------------------------------------------------------- */
+
+table.docutils {
+  border: 0;
+  border-collapse: collapse;
+}
+
+table.docutils td, table.docutils th {
+  padding: 1px 8px 1px 5px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid #aaa;
+}
+
+table.field-list td, table.field-list th {
+  border: 0 !important;
+}
+
+table.footnote td, table.footnote th {
+  border: 0 !important;
+}
+
+th {
+  text-align: left;
+  padding-right: 5px;
+}
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px;
+}
+
+table.citation td {
+  border-bottom: none;
+}
+
+
+/* -- other body styles ----------------------------------------------------- */
+
+ol.arabic {
+  list-style-type: decimal;
+}
+
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+dl {
+  margin-bottom: 15px;
+}
+
+dd p {
+  margin-top: 0px;
+}
+
+dd ul, dd table {
+  margin-bottom: 10px;
+}
+
+dd {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+}
+
+dt:target, .highlighted {
+  background-color: #fbe54e;
+}
+
+dl.glossary dt {
+  font-weight: bold;
+}
+
+.field-list ul {
+  margin: 0;
+  padding-left: 1em;
+}
+
+.field-list p {
+  margin: 0;
+}
+
+.refcount {
+  color: #060;
+}
+
+.optional {
+}
+
+.versionmodified {
+  font-style: italic;
+}
+
+.system-message {
+  background-color: #fda;
+  padding: 5px;
+  border: 3px solid red;
+}
+
+.footnote:target  {
+  background-color: #ffa;
+}
+
+.line-block {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.line-block .line-block {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 1.5em;
+}
+
+.guilabel, .menuselection {
+}
+
+.accelerator {
+  text-decoration: underline;
+}
+
+.classifier {
+  font-style: oblique;
+}
+
+abbr, acronym {
+  border-bottom: dotted 1px;
+  cursor: help;
+}
+
+
+/* -- code displays --------------------------------------------------------- */
+
+pre {
+  overflow: auto;
+  overflow-y: hidden;  /* fixes display issues on Chrome browsers */
+}
+
+td.linenos pre {
+  padding: 5px 0px;
+  border: 0;
+  background-color: transparent;
+  color: #aaa;
+}
+
+table.highlighttable {
+  margin-left: 0.5em;
+}
+
+table.highlighttable td {
+  padding: 0 0.5em 0 0.5em;
+}
+
+tt.descname {
+  background-color: transparent;
+  font-weight: bold;
+}
+
+tt.descclassname {
+  background-color: transparent;
+}
+
+tt.xref, a tt {
+  background-color: transparent;
+  font-weight: bold;
+}
+
+h1 tt, h2 tt, h3 tt, h4 tt, h5 tt, h6 tt {
+  background-color: transparent;
+}
+
+.viewcode-link {
+  float: right;
+}
+
+.viewcode-back {
+  float: right;
+}
+
+div.viewcode-block:target {
+  margin: -1px -10px;
+  padding: 0 10px;
+}
+
+div.highlight-JavaScript pre {
+  max-height: 200px;
+  overflow: auto;
+  background: #eee;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+div.highlight-URL pre {
+  max-height: 40px;
+  overflow: auto;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  line-height: 16px;
+  word-wrap: break-word;
+  padding: 4px;
+}
+
+/* -- math display ---------------------------------------------------------- */
+
+img.math {
+  vertical-align: middle;
+}
+
+div.body div.math p {
+  text-align: center;
+}
+
+span.eqno {
+  float: right;
+}
+
+
+/* -- utils ----------------------------------------------------------------- */
+
+.clear { clear: both; }
+.clearfix { zoom: 1; }
+.clearfix:after { clear: both; content: "."; display: block; height: 0; overflow: hidden; visibility: hidden; }
+.hide { display: none; }
+.show { display: block; }
+.left { float: left; }
+.right { float: right; }
+.first { margin-left: 0; padding-left: 0; }
+.last { margin-right: 0; padding-right: 0; }
+.top { margin-top: 0; padding-top: 0; }
+.bottom { margin-bottom: 0; padding-bottom: 0; }
+
+
+/* -- printout stylesheet --------------------------------------------------- */
+
+@media print {
+  div.document,
+  div.documentwrapper,
+  div.bodywrapper {
+    margin: 0 !important;
+    width: 100%;
+  }
+
+  div.sphinxsidebar,
+  div.related,
+  div.footer,
+  #top-link {
+    display: none;
+  }
+}
+
+
+/* -- media queries --------------------------------------------------- */
+
+@media screen and (max-width: 650px) {
+  .body {
+    max-width: none;
+    width: 95%;
+    padding: 10px;
+  }
+  .sidebar {
+    float: none;
+  }
+}
+
