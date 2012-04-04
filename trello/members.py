@@ -2,6 +2,8 @@ import json
 import requests
 
 class Members(object):
+    __module__ = 'trello'
+
     def __init__(self, apikey, token=None):
         self._apikey = apikey
         self._token = token

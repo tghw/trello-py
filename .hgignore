@@ -3,3 +3,4 @@ syntax:glob
 *.pyo
 dist/*
 build/*
+_build/*
