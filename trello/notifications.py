@@ -6,8 +6,8 @@ class Notifications(object):
         self._apikey = apikey
         self._token = token
 
-    def get(self, notification_id, fields=None):
-        resp = requests.get("https://trello.com/1/notifications/%s" % (notification_id), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
+    def get(self, notification_id, fields=None, memberCreator=None, memberCreator_fields=None, board=None, board_fields=None, list=None, card=None, card_fields=None, organization=None, organization_fields=None, member=None, member_fields=None):
+        resp = requests.get("https://trello.com/1/notifications/%s" % (notification_id), params=dict(key=self._apikey, token=self._token, fields=fields, memberCreator=memberCreator, memberCreator_fields=memberCreator_fields, board=board, board_fields=board_fields, list=list, card=card, card_fields=card_fields, organization=organization, organization_fields=organization_fields, member=member, member_fields=member_fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 

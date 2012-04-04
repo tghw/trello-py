@@ -6,8 +6,8 @@ class Cards(object):
         self._apikey = apikey
         self._token = token
 
-    def get(self, card_id, actions=None, action_fields=None, action_limit=None, attachments=None, attachment_fields=None, members=None, member_fields=None, checkItemStates=None, checkItemState_fields=None, badges=None, labels=None, checklists=None, checklist_fields=None, fields=None):
-        resp = requests.get("https://trello.com/1/cards/%s" % (card_id), params=dict(key=self._apikey, token=self._token, actions=actions, action_fields=action_fields, action_limit=action_limit, attachments=attachments, attachment_fields=attachment_fields, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checkItemState_fields=checkItemState_fields, badges=badges, labels=labels, checklists=checklists, checklist_fields=checklist_fields, fields=fields), data=None)
+    def get(self, card_id, actions=None, action_fields=None, action_limit=None, attachments=None, attachment_fields=None, members=None, member_fields=None, checkItemStates=None, checkItemState_fields=None, checklists=None, checklist_fields=None, fields=None):
+        resp = requests.get("https://trello.com/1/cards/%s" % (card_id), params=dict(key=self._apikey, token=self._token, actions=actions, action_fields=action_fields, action_limit=action_limit, attachments=attachments, attachment_fields=attachment_fields, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checkItemState_fields=checkItemState_fields, checklists=checklists, checklist_fields=checklist_fields, fields=fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -16,18 +16,13 @@ class Cards(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_action(self, card_id, filter=None, fields=None, limit=None, page=None):
-        resp = requests.get("https://trello.com/1/cards/%s/actions" % (card_id), params=dict(key=self._apikey, token=self._token, filter=filter, fields=fields, limit=limit, page=page), data=None)
+    def get_action(self, card_id, filter=None, fields=None, limit=None, page=None, idModels=None):
+        resp = requests.get("https://trello.com/1/cards/%s/actions" % (card_id), params=dict(key=self._apikey, token=self._token, filter=filter, fields=fields, limit=limit, page=page, idModels=idModels), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
     def get_attachment(self, card_id, fields=None):
         resp = requests.get("https://trello.com/1/cards/%s/attachments" % (card_id), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
-        resp.raise_for_status()
-        return json.loads(resp.content)
-
-    def get_badge(self, card_id):
-        resp = requests.get("https://trello.com/1/cards/%s/badges" % (card_id), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -48,11 +43,6 @@ class Cards(object):
 
     def get_checklist(self, card_id, cards=None, card_fields=None, checkItems=None, checkItem_fields=None, filter=None, fields=None):
         resp = requests.get("https://trello.com/1/cards/%s/checklists" % (card_id), params=dict(key=self._apikey, token=self._token, cards=cards, card_fields=card_fields, checkItems=checkItems, checkItem_fields=checkItem_fields, filter=filter, fields=fields), data=None)
-        resp.raise_for_status()
-        return json.loads(resp.content)
-
-    def get_label(self, card_id):
-        resp = requests.get("https://trello.com/1/cards/%s/labels" % (card_id), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -131,6 +121,11 @@ class Cards(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
+    def new_membersVoted(self, card_id, value):
+        resp = requests.post("https://trello.com/1/cards/%s/membersVoted" % (card_id), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
     def delete(self, card_id):
         resp = requests.delete("https://trello.com/1/cards/%s" % (card_id), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
@@ -148,6 +143,11 @@ class Cards(object):
 
     def delete_member_idMember(self, idMember, card_id):
         resp = requests.delete("https://trello.com/1/cards/%s/members/%s" % (card_id, idMember), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def delete_membersVoted_idMember(self, idMember, card_id):
+        resp = requests.delete("https://trello.com/1/cards/%s/membersVoted/%s" % (card_id, idMember), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 

@@ -8,6 +8,7 @@ from .members import Members
 from .notifications import Notifications
 from .organizations import Organizations
 from .tokens import Tokens
+from .types import Types
 
 
 class TrelloApi(object):
@@ -23,6 +24,7 @@ class TrelloApi(object):
         self.notifications = Notifications(apikey, token)
         self.organizations = Organizations(apikey, token)
         self.tokens = Tokens(apikey, token)
+        self.types = Types(apikey, token)
         
 
     def set_token(self, token):
@@ -36,6 +38,7 @@ class TrelloApi(object):
         self.notifications._token = token
         self.organizations._token = token
         self.tokens._token = token
+        self.types._token = token
         
 
     def get_token_url(self, app_name, expires='30days', write_access=True):

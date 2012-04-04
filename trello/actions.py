@@ -6,8 +6,8 @@ class Actions(object):
         self._apikey = apikey
         self._token = token
 
-    def get(self, action_id, fields=None):
-        resp = requests.get("https://trello.com/1/actions/%s" % (action_id), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
+    def get(self, action_id, fields=None, member=None, member_fields=None, memberCreator=None, memberCreator_fields=None):
+        resp = requests.get("https://trello.com/1/actions/%s" % (action_id), params=dict(key=self._apikey, token=self._token, fields=fields, member=member, member_fields=member_fields, memberCreator=memberCreator, memberCreator_fields=memberCreator_fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
