@@ -10,3 +10,4 @@ trello\members.py
 trello\notifications.py
 trello\organizations.py
 trello\tokens.py
+trello\types.py
