@@ -24,13 +24,13 @@ def main():
     print sections
     if not os.path.exists('trello'):
         os.mkdir('trello')
-    modules = []
     for section in sections:
         write_section(section)
 
-    with open(os.path.join('trello', '__init__.py'), 'w') as fd:
+    with open(os.path.join('trello', '__init__.py'), 'wb') as fd:
+        renderer = pystache.Renderer()
         trello_api = TrelloApi([module_name(section) for section in sections])
-        fd.write(trello_api.render())
+        fd.write(renderer.render(trello_api))
 
 def get_sections():
     sections = []
@@ -78,14 +78,18 @@ def request_args(request_type, req_args, opt_args):
     return 'params=%s, data=%s' % (params, data)
 
 def module_name(section_url):
-    return section_url.split('/')[-2] + 's'
+    module = section_url.split('/')[-2]
+    if module in ['search']:
+        return module
+    return module + 's'
 
 def write_section(section_url):
     module = module_name(section_url)
-    with open(os.path.join('trello', '%s.py' % module), 'w') as fd:
-        fd.write(ApiClass(section_url).render())
+    with open(os.path.join('trello', '%s.py' % module), 'wb') as fd:
+        renderer = pystache.Renderer(escape=lambda u: u)
+        fd.write(renderer.render(ApiClass(section_url)))
 
-class ApiClass(pystache.View):
+class ApiClass(object):
     def __init__(self, section_url):
         super(ApiClass, self).__init__()
         self.module = module_name(section_url)
@@ -113,7 +117,7 @@ class ApiClass(pystache.View):
             methods.append(dict(def_args=def_args, args=args, method=method, url=url, name=method_name))
         return methods
 
-class TrelloApi(pystache.View):
+class TrelloApi(object):
     def __init__(self, sections):
         super(TrelloApi, self).__init__()
         self.sections = [{'module': section, 'class': section.title()} for section in sections]
