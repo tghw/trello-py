@@ -28,4 +28,8 @@ class Tokens(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    
+    def delete(self, token):
+        resp = requests.delete("https://trello.com/1/tokens/%s" % (token), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
