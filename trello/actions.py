@@ -83,8 +83,8 @@ class Actions(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def update(self, idAction]text, value):
-        resp = requests.put("https://trello.com/1/actions/%stext" % (idAction]text), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+    def update(self, idAction, value):
+        resp = requests.put("https://trello.com/1/actions/%s" % (idAction), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
         resp.raise_for_status()
         return json.loads(resp.content)
 
