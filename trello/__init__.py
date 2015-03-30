@@ -1,4 +1,4 @@
-from urllib import quote_plus
+from urllib.parse import quote_plus
 from .actions import Actions
 from .boards import Boards
 from .cards import Cards
