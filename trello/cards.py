@@ -143,8 +143,8 @@ class Cards(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def new(self, name, idList, desc=None, pos=None, idCardSource=None, keepFromSource=None):
-        resp = requests.post("https://trello.com/1/cards" % (), params=dict(key=self._apikey, token=self._token), data=dict(name=name, idList=idList, desc=desc, pos=pos, idCardSource=idCardSource, keepFromSource=keepFromSource))
+    def new(self, name, idList, desc=None, pos=None, due=None, idCardSource=None, keepFromSource=None):
+        resp = requests.post("https://trello.com/1/cards" % (), params=dict(key=self._apikey, token=self._token), data=dict(name=name, idList=idList, desc=desc, pos=pos, due=due, idCardSource=idCardSource, keepFromSource=keepFromSource))
         resp.raise_for_status()
         return json.loads(resp.content)
 
