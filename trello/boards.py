@@ -93,8 +93,8 @@ class Boards(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def update(self, board_id, name=None, desc=None, closed=None, subscribed=None, idOrganization=None, prefs/permissionLevel=None, prefs/selfJoin=None, prefs/cardCovers=None, prefs/invitations=None, prefs/voting=None, prefs/comments=None):
-        resp = requests.put("https://trello.com/1/boards/%s" % (board_id), params=dict(key=self._apikey, token=self._token), data=dict(name=name, desc=desc, closed=closed, subscribed=subscribed, idOrganization=idOrganization, prefs/permissionLevel=prefs/permissionLevel, prefs/selfJoin=prefs/selfJoin, prefs/cardCovers=prefs/cardCovers, prefs/invitations=prefs/invitations, prefs/voting=prefs/voting, prefs/comments=prefs/comments))
+    def update(self, board_id, name=None, desc=None, closed=None, subscribed=None, idOrganization=None, permissionLevel=None, selfJoin=None, cardCovers=None, invitations=None, voting=None, comments=None):
+        resp = requests.put("https://trello.com/1/boards/%s" % (board_id), params=dict(key=self._apikey, token=self._token), data=dict(name=name, desc=desc, closed=closed, subscribed=subscribed, idOrganization=idOrganization, permissionLevel=permissionLevel, selfJoin=selfJoin, cardCovers=cardCovers, invitations=invitations, voting=voting, comments=comments))
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -202,4 +202,3 @@ class Boards(object):
         resp = requests.delete("https://trello.com/1/boards/%s/members/%s" % (board_id, idMember), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
-
