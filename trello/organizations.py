@@ -58,8 +58,8 @@ class Organizations(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def update(self, idOrg_or_name, prefs/orgInviteRestrict=None, prefs/externalMembersDisabled=None, prefs/boardVisibilityRestrict/private=None, prefs/boardVisibilityRestrict/org=None, prefs/boardVisibilityRestrict/public=None, name=None, displayName=None, desc=None, website=None, prefs/permissionLevel=None):
-        resp = requests.put("https://trello.com/1/organizations/%s" % (idOrg_or_name), params=dict(key=self._apikey, token=self._token), data=dict(prefs/orgInviteRestrict=prefs/orgInviteRestrict, prefs/externalMembersDisabled=prefs/externalMembersDisabled, prefs/boardVisibilityRestrict/private=prefs/boardVisibilityRestrict/private, prefs/boardVisibilityRestrict/org=prefs/boardVisibilityRestrict/org, prefs/boardVisibilityRestrict/public=prefs/boardVisibilityRestrict/public, name=name, displayName=displayName, desc=desc, website=website, prefs/permissionLevel=prefs/permissionLevel))
+    def update(self, idOrg_or_name, orgInviteRestrict=None, externalMembersDisabled=None, private=None, org=None, public=None, name=None, displayName=None, desc=None, website=None, permissionLevel=None):
+        resp = requests.put("https://trello.com/1/organizations/%s" % (idOrg_or_name), params=dict(key=self._apikey, token=self._token), data=dict(orgInviteRestrict=orgInviteRestrict, externalMembersDisabled=externalMembersDisabled, private=private, org=org, public=public, name=name, displayName=displayName, desc=desc, website=website, permissionLevel=permissionLevel))
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -172,4 +172,3 @@ class Organizations(object):
         resp = requests.delete("https://trello.com/1/organizations/%s/prefs/orgInviteRestrict" % (idOrg_or_name), params=dict(key=self._apikey, token=self._token, value=value), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
-
