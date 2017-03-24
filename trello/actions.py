@@ -8,8 +8,8 @@ class Actions(object):
         self._apikey = apikey
         self._token = token
 
-    def get(self, idAction, entities=None, fields=None, member=None, member_fields=None, memberCreator=None, memberCreator_fields=None):
-        resp = requests.get("https://trello.com/1/actions/%s" % (idAction), params=dict(key=self._apikey, token=self._token, entities=entities, fields=fields, member=member, member_fields=member_fields, memberCreator=memberCreator, memberCreator_fields=memberCreator_fields), data=None)
+    def get(self, idAction, display=None, entities=None, fields=None, member=None, member_fields=None, memberCreator=None, memberCreator_fields=None):
+        resp = requests.get("https://trello.com/1/actions/%s" % (idAction), params=dict(key=self._apikey, token=self._token, display=display, entities=entities, fields=fields, member=member, member_fields=member_fields, memberCreator=memberCreator, memberCreator_fields=memberCreator_fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -35,6 +35,11 @@ class Actions(object):
 
     def get_card_field(self, field, idAction):
         resp = requests.get("https://trello.com/1/actions/%s/card/%s" % (idAction, field), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_display(self, idAction):
+        resp = requests.get("https://trello.com/1/actions/%s/display" % (idAction), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -83,8 +88,13 @@ class Actions(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def update(self, idAction, value):
-        resp = requests.put("https://trello.com/1/actions/%s" % (idAction), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+    def update(self, idAction, text=None):
+        resp = requests.put("https://trello.com/1/actions/%s" % (idAction), params=dict(key=self._apikey, token=self._token), data=dict(text=text))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_text(self, idAction, value):
+        resp = requests.put("https://trello.com/1/actions/%s/text" % (idAction), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
         resp.raise_for_status()
         return json.loads(resp.content)
 

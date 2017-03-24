@@ -8,8 +8,8 @@ class Members(object):
         self._apikey = apikey
         self._token = token
 
-    def get(self, idMember_or_username, actions=None, actions_entities=None, actions_limit=None, action_fields=None, cards=None, card_fields=None, card_members=None, card_member_fields=None, card_attachments=None, card_attachment_fields=None, boards=None, board_fields=None, board_actions=None, board_actions_entities=None, board_actions_format=None, board_actions_since=None, board_actions_limit=None, board_action_fields=None, board_lists=None, board_organization=None, board_organization_fields=None, boardsInvited=None, boardsInvited_fields=None, organizations=None, organization_fields=None, organization_paid_account=None, organizationsInvited=None, organizationsInvited_fields=None, notifications=None, notifications_entities=None, notifications_limit=None, notification_fields=None, tokens=None, fields=None):
-        resp = requests.get("https://trello.com/1/members/%s" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, actions=actions, actions_entities=actions_entities, actions_limit=actions_limit, action_fields=action_fields, cards=cards, card_fields=card_fields, card_members=card_members, card_member_fields=card_member_fields, card_attachments=card_attachments, card_attachment_fields=card_attachment_fields, boards=boards, board_fields=board_fields, board_actions=board_actions, board_actions_entities=board_actions_entities, board_actions_format=board_actions_format, board_actions_since=board_actions_since, board_actions_limit=board_actions_limit, board_action_fields=board_action_fields, board_lists=board_lists, board_organization=board_organization, board_organization_fields=board_organization_fields, boardsInvited=boardsInvited, boardsInvited_fields=boardsInvited_fields, organizations=organizations, organization_fields=organization_fields, organization_paid_account=organization_paid_account, organizationsInvited=organizationsInvited, organizationsInvited_fields=organizationsInvited_fields, notifications=notifications, notifications_entities=notifications_entities, notifications_limit=notifications_limit, notification_fields=notification_fields, tokens=tokens, fields=fields), data=None)
+    def get(self, idMember_or_username, actions=None, actions_entities=None, actions_display=None, actions_limit=None, action_fields=None, action_since=None, action_before=None, cards=None, card_fields=None, card_members=None, card_member_fields=None, card_attachments=None, card_attachment_fields=None, card_stickers=None, boards=None, board_fields=None, board_actions=None, board_actions_entities=None, board_actions_display=None, board_actions_format=None, board_actions_since=None, board_actions_limit=None, board_action_fields=None, board_lists=None, board_memberships=None, board_organization=None, board_organization_fields=None, boardsInvited=None, boardsInvited_fields=None, boardStars=None, savedSearches=None, organizations=None, organization_fields=None, organization_paid_account=None, organizationsInvited=None, organizationsInvited_fields=None, notifications=None, notifications_entities=None, notifications_display=None, notifications_limit=None, notification_fields=None, notification_memberCreator=None, notification_memberCreator_fields=None, notification_before=None, notification_since=None, tokens=None, paid_account=None, boardBackgrounds=None, customBoardBackgrounds=None, customStickers=None, customEmoji=None, fields=None):
+        resp = requests.get("https://trello.com/1/members/%s" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, actions=actions, actions_entities=actions_entities, actions_display=actions_display, actions_limit=actions_limit, action_fields=action_fields, action_since=action_since, action_before=action_before, cards=cards, card_fields=card_fields, card_members=card_members, card_member_fields=card_member_fields, card_attachments=card_attachments, card_attachment_fields=card_attachment_fields, card_stickers=card_stickers, boards=boards, board_fields=board_fields, board_actions=board_actions, board_actions_entities=board_actions_entities, board_actions_display=board_actions_display, board_actions_format=board_actions_format, board_actions_since=board_actions_since, board_actions_limit=board_actions_limit, board_action_fields=board_action_fields, board_lists=board_lists, board_memberships=board_memberships, board_organization=board_organization, board_organization_fields=board_organization_fields, boardsInvited=boardsInvited, boardsInvited_fields=boardsInvited_fields, boardStars=boardStars, savedSearches=savedSearches, organizations=organizations, organization_fields=organization_fields, organization_paid_account=organization_paid_account, organizationsInvited=organizationsInvited, organizationsInvited_fields=organizationsInvited_fields, notifications=notifications, notifications_entities=notifications_entities, notifications_display=notifications_display, notifications_limit=notifications_limit, notification_fields=notification_fields, notification_memberCreator=notification_memberCreator, notification_memberCreator_fields=notification_memberCreator_fields, notification_before=notification_before, notification_since=notification_since, tokens=tokens, paid_account=paid_account, boardBackgrounds=boardBackgrounds, customBoardBackgrounds=customBoardBackgrounds, customStickers=customStickers, customEmoji=customEmoji, fields=fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -18,13 +18,33 @@ class Members(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_action(self, idMember_or_username, entities=None, filter=None, fields=None, limit=None, format=None, since=None, page=None, idModels=None):
-        resp = requests.get("https://trello.com/1/members/%s/actions" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, entities=entities, filter=filter, fields=fields, limit=limit, format=format, since=since, page=page, idModels=idModels), data=None)
+    def get_action(self, idMember_or_username, entities=None, display=None, filter=None, fields=None, limit=None, format=None, since=None, before=None, page=None, idModels=None, member=None, member_fields=None, memberCreator=None, memberCreator_fields=None):
+        resp = requests.get("https://trello.com/1/members/%s/actions" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, entities=entities, display=display, filter=filter, fields=fields, limit=limit, format=format, since=since, before=before, page=page, idModels=idModels, member=member, member_fields=member_fields, memberCreator=memberCreator, memberCreator_fields=memberCreator_fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_board(self, idMember_or_username, filter=None, fields=None, actions=None, actions_entities=None, actions_limit=None, actions_format=None, actions_since=None, action_fields=None, organization=None, organization_fields=None, lists=None):
-        resp = requests.get("https://trello.com/1/members/%s/boards" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter, fields=fields, actions=actions, actions_entities=actions_entities, actions_limit=actions_limit, actions_format=actions_format, actions_since=actions_since, action_fields=action_fields, organization=organization, organization_fields=organization_fields, lists=lists), data=None)
+    def get_boardBackground(self, idMember_or_username, filter=None):
+        resp = requests.get("https://trello.com/1/members/%s/boardBackgrounds" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_boardBackground_idBoardBackground(self, idBoardBackground, idMember_or_username, fields=None):
+        resp = requests.get("https://trello.com/1/members/%s/boardBackgrounds/%s" % (idMember_or_username, idBoardBackground), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_boardStar(self, idMember_or_username):
+        resp = requests.get("https://trello.com/1/members/%s/boardStars" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_boardStar_idBoardStar(self, idBoardStar, idMember_or_username):
+        resp = requests.get("https://trello.com/1/members/%s/boardStars/%s" % (idMember_or_username, idBoardStar), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_board(self, idMember_or_username, filter=None, fields=None, actions=None, actions_entities=None, actions_limit=None, actions_format=None, actions_since=None, action_fields=None, memberships=None, organization=None, organization_fields=None, lists=None):
+        resp = requests.get("https://trello.com/1/members/%s/boards" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter, fields=fields, actions=actions, actions_entities=actions_entities, actions_limit=actions_limit, actions_format=actions_format, actions_since=actions_since, action_fields=action_fields, memberships=memberships, organization=organization, organization_fields=organization_fields, lists=lists), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -43,8 +63,8 @@ class Members(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_card(self, idMember_or_username, actions=None, attachments=None, attachment_fields=None, members=None, member_fields=None, checkItemStates=None, checklists=None, filter=None, fields=None):
-        resp = requests.get("https://trello.com/1/members/%s/cards" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, actions=actions, attachments=attachments, attachment_fields=attachment_fields, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checklists=checklists, filter=filter, fields=fields), data=None)
+    def get_card(self, idMember_or_username, actions=None, attachments=None, attachment_fields=None, stickers=None, members=None, member_fields=None, checkItemStates=None, checklists=None, limit=None, since=None, before=None, filter=None, fields=None):
+        resp = requests.get("https://trello.com/1/members/%s/cards" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, actions=actions, attachments=attachments, attachment_fields=attachment_fields, stickers=stickers, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checklists=checklists, limit=limit, since=since, before=before, filter=filter, fields=fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -53,8 +73,43 @@ class Members(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_notification(self, idMember_or_username, entities=None, filter=None, read_filter=None, fields=None, limit=None, page=None, before=None, since=None):
-        resp = requests.get("https://trello.com/1/members/%s/notifications" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, entities=entities, filter=filter, read_filter=read_filter, fields=fields, limit=limit, page=page, before=before, since=since), data=None)
+    def get_customBoardBackground(self, idMember_or_username, filter=None):
+        resp = requests.get("https://trello.com/1/members/%s/customBoardBackgrounds" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_customBoardBackground_idBoardBackground(self, idBoardBackground, idMember_or_username, fields=None):
+        resp = requests.get("https://trello.com/1/members/%s/customBoardBackgrounds/%s" % (idMember_or_username, idBoardBackground), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_customEmoji(self, idMember_or_username, filter=None):
+        resp = requests.get("https://trello.com/1/members/%s/customEmoji" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_customEmoji_idCustomEmoji(self, idCustomEmoji, idMember_or_username, fields=None):
+        resp = requests.get("https://trello.com/1/members/%s/customEmoji/%s" % (idMember_or_username, idCustomEmoji), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_customSticker(self, idMember_or_username, filter=None):
+        resp = requests.get("https://trello.com/1/members/%s/customStickers" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_customSticker_idCustomSticker(self, idCustomSticker, idMember_or_username, fields=None):
+        resp = requests.get("https://trello.com/1/members/%s/customStickers/%s" % (idMember_or_username, idCustomSticker), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_delta(self, idMember_or_username, tags, ixLastUpdate):
+        resp = requests.get("https://trello.com/1/members/%s/deltas" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, tags=tags, ixLastUpdate=ixLastUpdate), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_notification(self, idMember_or_username, entities=None, display=None, filter=None, read_filter=None, fields=None, limit=None, page=None, before=None, since=None, memberCreator=None, memberCreator_fields=None):
+        resp = requests.get("https://trello.com/1/members/%s/notifications" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, entities=entities, display=display, filter=filter, read_filter=read_filter, fields=fields, limit=limit, page=page, before=before, since=since, memberCreator=memberCreator, memberCreator_fields=memberCreator_fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -83,18 +138,58 @@ class Members(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_token(self, idMember_or_username, filter=None):
-        resp = requests.get("https://trello.com/1/members/%s/tokens" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter), data=None)
+    def get_savedSearche(self, idMember_or_username):
+        resp = requests.get("https://trello.com/1/members/%s/savedSearches" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def update(self, idMember_or_username, fullName=None, initials=None, bio=None):
-        resp = requests.put("https://trello.com/1/members/%s" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(fullName=fullName, initials=initials, bio=bio))
+    def get_savedSearche_idSavedSearch(self, idSavedSearch, idMember_or_username):
+        resp = requests.get("https://trello.com/1/members/%s/savedSearches/%s" % (idMember_or_username, idSavedSearch), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def get_token(self, idMember_or_username, filter=None, webhooks=None):
+        resp = requests.get("https://trello.com/1/members/%s/tokens" % (idMember_or_username), params=dict(key=self._apikey, token=self._token, filter=filter, webhooks=webhooks), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update(self, idMember_or_username, fullName=None, initials=None, username=None, bio=None, avatarSource=None, prefs/colorBlind=None, prefs/locale=None, prefs/minutesBetweenSummaries=None):
+        resp = requests.put("https://trello.com/1/members/%s" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(fullName=fullName, initials=initials, username=username, bio=bio, avatarSource=avatarSource, prefs/colorBlind=prefs/colorBlind, prefs/locale=prefs/locale, prefs/minutesBetweenSummaries=prefs/minutesBetweenSummaries))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_avatarSource(self, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/avatarSource" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
         resp.raise_for_status()
         return json.loads(resp.content)
 
     def update_bio(self, idMember_or_username, value):
         resp = requests.put("https://trello.com/1/members/%s/bio" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_boardBackground_idBoardBackground(self, idBoardBackground, idMember_or_username, tile=None, brightness=None):
+        resp = requests.put("https://trello.com/1/members/%s/boardBackgrounds/%s" % (idMember_or_username, idBoardBackground), params=dict(key=self._apikey, token=self._token), data=dict(tile=tile, brightness=brightness))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_boardStar(self, idMember_or_username, idBoard=None, pos=None):
+        resp = requests.put("https://trello.com/1/members/%s/boardStars/%s" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(idBoard=idBoard, pos=pos))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_boardStar_idBoard_idBoardStar(self, idBoardStar, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/boardStars/%s/idBoard" % (idMember_or_username, idBoardStar), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_boardStar_po_idBoardStar(self, idBoardStar, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/boardStars/%s/pos" % (idMember_or_username, idBoardStar), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_customBoardBackground_idBoardBackground(self, idBoardBackground, idMember_or_username, tile=None, brightness=None):
+        resp = requests.put("https://trello.com/1/members/%s/customBoardBackgrounds/%s" % (idMember_or_username, idBoardBackground), params=dict(key=self._apikey, token=self._token), data=dict(tile=tile, brightness=brightness))
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -105,6 +200,111 @@ class Members(object):
 
     def update_initial(self, idMember_or_username, value):
         resp = requests.put("https://trello.com/1/members/%s/initials" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_pref_colorBlind(self, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/prefs/colorBlind" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_pref_locale(self, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/prefs/locale" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_pref_minutesBetweenSummarie(self, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/prefs/minutesBetweenSummaries" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_savedSearche(self, idMember_or_username, name=None, query=None, pos=None):
+        resp = requests.put("https://trello.com/1/members/%s/savedSearches/%s" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(name=name, query=query, pos=pos))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_savedSearche_name_idSavedSearch(self, idSavedSearch, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/savedSearches/%s/name" % (idMember_or_username, idSavedSearch), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_savedSearche_po_idSavedSearch(self, idSavedSearch, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/savedSearches/%s/pos" % (idMember_or_username, idSavedSearch), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_savedSearche_query_idSavedSearch(self, idSavedSearch, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/savedSearches/%s/query" % (idMember_or_username, idSavedSearch), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update_username(self, idMember_or_username, value):
+        resp = requests.put("https://trello.com/1/members/%s/username" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_avatar(self, idMember_or_username, file):
+        resp = requests.post("https://trello.com/1/members/%s/avatar" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(file=file))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_boardBackground(self, idMember_or_username, file):
+        resp = requests.post("https://trello.com/1/members/%s/boardBackgrounds" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(file=file))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_boardStar(self, idMember_or_username, idBoard, pos):
+        resp = requests.post("https://trello.com/1/members/%s/boardStars" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(idBoard=idBoard, pos=pos))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_customBoardBackground(self, idMember_or_username, file):
+        resp = requests.post("https://trello.com/1/members/%s/customBoardBackgrounds" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(file=file))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_customEmoji(self, idMember_or_username, file, name):
+        resp = requests.post("https://trello.com/1/members/%s/customEmoji" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(file=file, name=name))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_customSticker(self, idMember_or_username, file):
+        resp = requests.post("https://trello.com/1/members/%s/customStickers" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(file=file))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_oneTimeMessagesDismissed(self, idMember_or_username, value):
+        resp = requests.post("https://trello.com/1/members/%s/oneTimeMessagesDismissed" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_savedSearche(self, idMember_or_username, name, query, pos):
+        resp = requests.post("https://trello.com/1/members/%s/savedSearches" % (idMember_or_username), params=dict(key=self._apikey, token=self._token), data=dict(name=name, query=query, pos=pos))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def delete_boardBackground_idBoardBackground(self, idBoardBackground, idMember_or_username):
+        resp = requests.delete("https://trello.com/1/members/%s/boardBackgrounds/%s" % (idMember_or_username, idBoardBackground), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def delete_boardStar_idBoardStar(self, idBoardStar, idMember_or_username):
+        resp = requests.delete("https://trello.com/1/members/%s/boardStars/%s" % (idMember_or_username, idBoardStar), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def delete_customBoardBackground_idBoardBackground(self, idBoardBackground, idMember_or_username):
+        resp = requests.delete("https://trello.com/1/members/%s/customBoardBackgrounds/%s" % (idMember_or_username, idBoardBackground), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def delete_customSticker_idCustomSticker(self, idCustomSticker, idMember_or_username):
+        resp = requests.delete("https://trello.com/1/members/%s/customStickers/%s" % (idMember_or_username, idCustomSticker), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def delete_savedSearche_idSavedSearch(self, idSavedSearch, idMember_or_username):
+        resp = requests.delete("https://trello.com/1/members/%s/savedSearches/%s" % (idMember_or_username, idSavedSearch), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 

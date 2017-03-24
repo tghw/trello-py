@@ -2,10 +2,11 @@ import os
 import re
 import requests
 import pystache
+
 from urlparse import urljoin
 from BeautifulSoup import BeautifulSoup as Soup
 
-INDEX = 'https://trello.com/docs/api/index.html'
+INDEX = 'https://developers.trello.com/templates/apis/advanced-reference.html'
 
 METHOD_LOOKUP = {
     'GET': 'get',
@@ -35,25 +36,31 @@ def main():
 def get_sections():
     sections = []
     soup = get_soup(INDEX)
-    for li in soup.findAll('li', {'class': 'toctree-l1'}):
-        a = li.find('a', {'class': 'reference internal'})
-        sections.append(urljoin(INDEX, a['href']))
+
+    ul = soup.find('div', {'class': 'api-ref-nav'}).find('ul')
+    for li in ul.findAll('li', recursive=False):
+        href = li.find('a')['href']
+        href = href.replace('advanced-reference', 'templates/docs')
+        sections.append(urljoin(INDEX, href + '.html'))
     return sections
 
 def get_actions(section_url):
     actions = []
     soup = get_soup(section_url)
-    for section in soup.find('div', {'class': 'section'}).findAll('div', {'class': 'section'}):
-        h2 = section.find('h2')
-        method, url, _ = [s.strip() for s in h2.findAll(text=True)]
-        ul = section.ul
+
+    for section in soup.findAll('div', {'class': 'section'}):
+        try:
+            method, url = [s.strip() for s in section.h2.findAll(text=True)][:2]
+        except ValueError:
+            continue
+
         args = []
-        for li in ul.findAll('li', recursive=False):
+        for li in section.ul.findAll('li', recursive=False):
             if 'arguments' in li.text.lower():
                 args_ul = li.ul
                 if args_ul:
                     for arg_li in args_ul.findAll('li', recursive=False):
-                        arg = arg_li.tt.text
+                        arg = arg_li.code.text
                         required = 'required' in arg_li.text.lower()
                         args.append((arg, required))
         actions.append((method, url, args))
@@ -78,9 +85,12 @@ def request_args(request_type, req_args, opt_args):
     return 'params=%s, data=%s' % (params, data)
 
 def module_name(section_url):
-    module = section_url.split('/')[-2]
+    module = section_url.split('/')[-1]
+    module = module.split('.')[0]
     if module in ['search']:
         return module
+    if module in ['batch']:
+        return module + 'es'
     return module + 's'
 
 def write_section(section_url):

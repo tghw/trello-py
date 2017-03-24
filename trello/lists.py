@@ -8,8 +8,8 @@ class Lists(object):
         self._apikey = apikey
         self._token = token
 
-    def get(self, idList, cards=None, card_fields=None, fields=None):
-        resp = requests.get("https://trello.com/1/lists/%s" % (idList), params=dict(key=self._apikey, token=self._token, cards=cards, card_fields=card_fields, fields=fields), data=None)
+    def get(self, idList, cards=None, card_fields=None, board=None, board_fields=None, fields=None):
+        resp = requests.get("https://trello.com/1/lists/%s" % (idList), params=dict(key=self._apikey, token=self._token, cards=cards, card_fields=card_fields, board=board, board_fields=board_fields, fields=fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -18,8 +18,8 @@ class Lists(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_action(self, idList, entities=None, filter=None, fields=None, limit=None, format=None, since=None, page=None, idModels=None):
-        resp = requests.get("https://trello.com/1/lists/%s/actions" % (idList), params=dict(key=self._apikey, token=self._token, entities=entities, filter=filter, fields=fields, limit=limit, format=format, since=since, page=page, idModels=idModels), data=None)
+    def get_action(self, idList, entities=None, display=None, filter=None, fields=None, limit=None, format=None, since=None, before=None, page=None, idModels=None, member=None, member_fields=None, memberCreator=None, memberCreator_fields=None):
+        resp = requests.get("https://trello.com/1/lists/%s/actions" % (idList), params=dict(key=self._apikey, token=self._token, entities=entities, display=display, filter=filter, fields=fields, limit=limit, format=format, since=since, before=before, page=page, idModels=idModels, member=member, member_fields=member_fields, memberCreator=memberCreator, memberCreator_fields=memberCreator_fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -33,8 +33,8 @@ class Lists(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_card(self, idList, actions=None, attachments=None, attachment_fields=None, members=None, member_fields=None, checkItemStates=None, checklists=None, filter=None, fields=None):
-        resp = requests.get("https://trello.com/1/lists/%s/cards" % (idList), params=dict(key=self._apikey, token=self._token, actions=actions, attachments=attachments, attachment_fields=attachment_fields, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checklists=checklists, filter=filter, fields=fields), data=None)
+    def get_card(self, idList, actions=None, attachments=None, attachment_fields=None, stickers=None, members=None, member_fields=None, checkItemStates=None, checklists=None, limit=None, since=None, before=None, filter=None, fields=None):
+        resp = requests.get("https://trello.com/1/lists/%s/cards" % (idList), params=dict(key=self._apikey, token=self._token, actions=actions, attachments=attachments, attachment_fields=attachment_fields, stickers=stickers, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checklists=checklists, limit=limit, since=since, before=before, filter=filter, fields=fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -78,8 +78,18 @@ class Lists(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def new_card(self, idList, name, desc=None):
-        resp = requests.post("https://trello.com/1/lists/%s/cards" % (idList), params=dict(key=self._apikey, token=self._token), data=dict(name=name, desc=desc))
+    def new_archiveAllCard(self, idList):
+        resp = requests.post("https://trello.com/1/lists/%s/archiveAllCards" % (idList), params=dict(key=self._apikey, token=self._token), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_card(self, idList, name, due, desc=None, labels=None, idMembers=None):
+        resp = requests.post("https://trello.com/1/lists/%s/cards" % (idList), params=dict(key=self._apikey, token=self._token), data=dict(name=name, due=due, desc=desc, labels=labels, idMembers=idMembers))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_moveAllCard_idList(self, idList, idList, idBoard):
+        resp = requests.post("https://trello.com/1/lists/%s/moveAllCards" % (idList, idList), params=dict(key=self._apikey, token=self._token), data=dict(idBoard=idBoard))
         resp.raise_for_status()
         return json.loads(resp.content)
 

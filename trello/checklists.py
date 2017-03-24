@@ -28,8 +28,8 @@ class Checklists(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def get_card(self, idChecklist, actions=None, attachments=None, attachment_fields=None, members=None, member_fields=None, checkItemStates=None, checklists=None, filter=None, fields=None):
-        resp = requests.get("https://trello.com/1/checklists/%s/cards" % (idChecklist), params=dict(key=self._apikey, token=self._token, actions=actions, attachments=attachments, attachment_fields=attachment_fields, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checklists=checklists, filter=filter, fields=fields), data=None)
+    def get_card(self, idChecklist, actions=None, attachments=None, attachment_fields=None, stickers=None, members=None, member_fields=None, checkItemStates=None, checklists=None, limit=None, since=None, before=None, filter=None, fields=None):
+        resp = requests.get("https://trello.com/1/checklists/%s/cards" % (idChecklist), params=dict(key=self._apikey, token=self._token, actions=actions, attachments=attachments, attachment_fields=attachment_fields, stickers=stickers, members=members, member_fields=member_fields, checkItemStates=checkItemStates, checklists=checklists, limit=limit, since=since, before=before, filter=filter, fields=fields), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -43,8 +43,13 @@ class Checklists(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def update(self, idChecklist, name=None):
-        resp = requests.put("https://trello.com/1/checklists/%s" % (idChecklist), params=dict(key=self._apikey, token=self._token), data=dict(name=name))
+    def get_checkItem_idCheckItem(self, idCheckItem, idChecklist, fields=None):
+        resp = requests.get("https://trello.com/1/checklists/%s/checkItems/%s" % (idChecklist, idCheckItem), params=dict(key=self._apikey, token=self._token, fields=fields), data=None)
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def update(self, idChecklist, name=None, pos=None):
+        resp = requests.put("https://trello.com/1/checklists/%s" % (idChecklist), params=dict(key=self._apikey, token=self._token), data=dict(name=name, pos=pos))
         resp.raise_for_status()
         return json.loads(resp.content)
 
@@ -53,13 +58,23 @@ class Checklists(object):
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def new(self, name, idBoard, idChecklistSource=None):
-        resp = requests.post("https://trello.com/1/checklists" % (), params=dict(key=self._apikey, token=self._token), data=dict(name=name, idBoard=idBoard, idChecklistSource=idChecklistSource))
+    def update_po(self, idChecklist, value):
+        resp = requests.put("https://trello.com/1/checklists/%s/pos" % (idChecklist), params=dict(key=self._apikey, token=self._token), data=dict(value=value))
         resp.raise_for_status()
         return json.loads(resp.content)
 
-    def new_checkItem(self, idChecklist, name, pos=None):
-        resp = requests.post("https://trello.com/1/checklists/%s/checkItems" % (idChecklist), params=dict(key=self._apikey, token=self._token), data=dict(name=name, pos=pos))
+    def new(self, idCard, name=None, pos=None, idChecklistSource=None):
+        resp = requests.post("https://trello.com/1/checklists" % (), params=dict(key=self._apikey, token=self._token), data=dict(idCard=idCard, name=name, pos=pos, idChecklistSource=idChecklistSource))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def new_checkItem(self, idChecklist, name, pos=None, checked=None):
+        resp = requests.post("https://trello.com/1/checklists/%s/checkItems" % (idChecklist), params=dict(key=self._apikey, token=self._token), data=dict(name=name, pos=pos, checked=checked))
+        resp.raise_for_status()
+        return json.loads(resp.content)
+
+    def delete(self, idChecklist):
+        resp = requests.delete("https://trello.com/1/checklists/%s" % (idChecklist), params=dict(key=self._apikey, token=self._token), data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
