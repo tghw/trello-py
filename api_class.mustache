@@ -12,6 +12,6 @@ class {{class_name}}(object):
     def {{name}}(self, {{def_args}}):
         resp = requests.{{method}}({{url}}, {{args}})
         resp.raise_for_status()
-        return json.loads(resp.content)
+        return json.loads(resp.text)
 
     {{/methods}}

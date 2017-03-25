@@ -11,5 +11,5 @@ class Batches(object):
     def get(self, urls):
         resp = requests.get("https://trello.com/1/batch".format(), params={"key": self._apikey, "token": self._token, "urls": urls}, data=None)
         resp.raise_for_status()
-        return json.loads(resp.content)
+        return json.loads(resp.text)
 
