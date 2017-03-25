@@ -85,12 +85,9 @@ def request_args(request_type, req_args, opt_args):
     else:
         post_args += req_args
         post_args += opt_args
-    #params = 'dict({})'.format(', '.join(['key=self._apikey', 'token=self._token'] + ['{}={}'.format(arg, arg) for arg in get_args]))
     params = '{{{}}}'.format(', '.join(['"key": self._apikey', '"token": self._token'] + ['"{}": {}'.format(arg, arg) for arg in get_args]))
     data = '{{{}}}'.format(', '.join(['"{}": {}'.format(arg, escape(arg)) for arg in post_args])) if post_args else None
     return 'params={}, data={}'.format(params, data)
-    #return 'params=%s, data=%s' % (params, data)
-
 
 def module_name(section_url):
     module = section_url.split('/')[-1]
@@ -103,7 +100,7 @@ def module_name(section_url):
 
 def write_section(section_url):
     module = module_name(section_url)
-    with open(os.path.join('trello', '%s.py' % module), 'wb') as fd:
+    with open(os.path.join('trello', '{}.py'.format(module)), 'wb') as fd:
         renderer = pystache.Renderer(escape=lambda u: u)
         fd.write(renderer.render(ApiClass(section_url)))
 
@@ -123,7 +120,7 @@ class ApiClass(object):
             method_parts = [part.rstrip('s') for part in url_parts[3:] if not part.startswith('[')]
             method_name = '_'.join([METHOD_LOOKUP[action[0]]] + method_parts)
             id_arg = ([part.strip('[]').replace(' ', '_') for part in url_parts if part.startswith('[')] or [None])[0]
-            url_args = [arg[0] for arg in action[2] if ('[%s]' % arg[0] in url_parts)]
+            url_args = [arg[0] for arg in action[2] if '[{}]'.format(arg[0]) in url_parts]
             if url_args:
                 method_name = '{}_{}'.format(method_name, '_'.join(url_args))
             req_args = [arg[0] for arg in action[2] if arg[1] and arg[0] not in url_args]
@@ -131,8 +128,7 @@ class ApiClass(object):
             def_args = function_args(url_args, id_arg, req_args, opt_args)
             args = request_args(action[0].upper(), req_args, opt_args)
             method = action[0].lower()
-            #url = '"https://trello.com%s" %% (%s)' % (re.sub(r'\[.*?\]', '%s', action[1]), ', '.join([id_arg] + url_args if id_arg else url_args))
-            url = '"https://trello.com%s" %% (%s)' % (re.sub(r'\[.*?\]', '%s', action[1]), ', '.join([id_arg] + url_args if id_arg else url_args))
+            url = '"https://trello.com{}".format({})'.format(re.sub(r'\[.*?\]', '{}', action[1]), ', '.join([id_arg] + url_args if id_arg else url_args))
             methods.append(dict(def_args=def_args, args=args, method=method, url=url, name=method_name))
         return methods
 
