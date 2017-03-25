@@ -3,7 +3,7 @@ from distutils.core import setup
 from textwrap import dedent
 
 setup(name='trello',
-      version='0.9.1',
+      version='0.9.2',
       packages=['trello'],
       license=dedent("""\
         Copyright (c) 2012, Fog Creek Software, Inc.
