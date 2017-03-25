@@ -9,7 +9,7 @@ class Batches(object):
         self._token = token
 
     def get(self, urls):
-        resp = requests.get("https://trello.com/1/batch" % (), params=dict(key=self._apikey, token=self._token, urls=urls), data=None)
+        resp = requests.get("https://trello.com/1/batch" % (), params={"key": self._apikey, "token": self._token, "urls": urls}, data=None)
         resp.raise_for_status()
         return json.loads(resp.content)
 
