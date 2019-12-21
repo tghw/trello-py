@@ -2,10 +2,11 @@ import setuptools
 
 from textwrap import dedent
 
-setuptools.setup(name='trello',
-      version='0.9.3',
-      packages=['trello'],
-      license=dedent("""\
+setuptools.setup(
+    name='trello',
+    version='0.9.4',
+    packages=['trello'],
+    license=dedent("""
         Redistribution and use in source and binary forms, with or without modification,
         are permitted provided that the following conditions are met:
 
@@ -25,26 +26,25 @@ setuptools.setup(name='trello',
         ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
         (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-        """),
-      description='Python library for interacting with the Trello API',
-      long_description=dedent("""\
+    """),
+    description='Python library for interacting with the Trello API',
+    long_description=dedent("""
         Python Trello API Wrapper
-        --------------------------
 
         This Python API is simply a wrapper around the Trello API
 
         Getting Started:
-        ----------------
+
         To use the Trello API, install the package either by downloading the source and running
 
-          $ python setup.py install
+            $ python setup.py install
 
         or by using pip
 
-          $ pip install trello
+            $ pip install trello
 
         Documentation:
-        --------------
+
         You can find documentation for the Python API at:
 
             http://packages.python.org/trello/
@@ -52,25 +52,28 @@ setuptools.setup(name='trello',
         And documentation for the Trello API at:
 
             https://trello.com/docs/api/
-
-        """),
-      author='tghw,kulikjak,waghanza,lukegb',
-      author_email='ty@tghw.com',
-      url='https://github.com/tghw/trello-py',
-      classifiers=[
-          'Development Status :: 4 - Beta',
-          'Intended Audience :: Developers',
-          'Natural Language :: English',
-          'Operating System :: MacOS :: MacOS X',
-          'Operating System :: Microsoft :: Windows',
-          'Operating System :: POSIX',
-          'Operating System :: POSIX :: BSD',
-          'Operating System :: POSIX :: Linux',
-          'Programming Language :: Python',
-          'Topic :: Internet :: WWW/HTTP',
-          'Topic :: Software Development',
-          'Topic :: Software Development :: Libraries',
-          'Topic :: Software Development :: Libraries :: Python Modules',
-          'Topic :: Utilities',
-      ],
+    """),
+    author='tghw,kulikjak,waghanza,lukegb',
+    author_email='ty@tghw.com',
+    url='https://github.com/tghw/trello-py',
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Natural Language :: English',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'Operating System :: POSIX :: BSD',
+        'Operating System :: POSIX :: Linux',
+        'Programming Language :: Python',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Software Development',
+        'Topic :: Software Development :: Libraries',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Utilities',
+    ],
+    install_requires = [
+        "requests",
+        "pystache",
+    ],
 )
