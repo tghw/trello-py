@@ -1,14 +1,11 @@
-from distutils.core import setup
+import setuptools
 
 from textwrap import dedent
 
-setup(name='trello',
-      version='0.9.2',
+setuptools.setup(name='trello',
+      version='0.9.3',
       packages=['trello'],
       license=dedent("""\
-        Copyright (c) 2012, Fog Creek Software, Inc.
-        All rights reserved.
-
         Redistribution and use in source and binary forms, with or without modification,
         are permitted provided that the following conditions are met:
 
@@ -57,14 +54,9 @@ setup(name='trello',
             https://trello.com/docs/api/
 
         """),
-      author='Fog Creek Software',
-      author_email='customer-service@fogcreek.com',
-      maintainer='Fog Creek Software',
-      maintainer_email='customer-service@fogcreek.com',
-      url='https://trello.com/',
-      download_url='https://developers.kilnhg.com/Repo/Trello/Group/TrelloPy',
-      install_requires=['requests>=0.9.1'],
-      requires='requests',
+      author='tghw,kulikjak,waghanza,lukegb',
+      author_email='ty@tghw.com',
+      url='https://github.com/tghw/trello-py',
       classifiers=[
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',

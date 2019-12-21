@@ -4,3 +4,6 @@ syntax:glob
 dist/*
 build/*
 _build/*
+venv/*
+env/*
+*.egg-info/*
