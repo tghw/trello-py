@@ -28,8 +28,8 @@ class Boards(object):
         resp.raise_for_status()
         return json.loads(resp.text)
 
-    def get_card(self, board_id, actions=None, attachments=None, attachment_fields=None, stickers=None, members=None, member_fields=None, checkItemStates=None, checklists=None, limit=None, since=None, before=None, filter=None, fields=None):
-        resp = requests.get("https://trello.com/1/boards/{}/cards".format(board_id), params={"key": self._apikey, "token": self._token, "actions": actions, "attachments": attachments, "attachment_fields": attachment_fields, "stickers": stickers, "members": members, "member_fields": member_fields, "checkItemStates": checkItemStates, "checklists": checklists, "limit": limit, "since": since, "before": before, "filter": filter, "fields": fields}, data=None)
+    def get_card(self, board_id, actions=None, attachments=None, attachment_fields=None, stickers=None, members=None, member_fields=None, checkItemStates=None, checklists=None, limit=None, since=None, before=None, filter=None, fields=None, customFieldItems=None):
+        resp = requests.get("https://trello.com/1/boards/{}/cards".format(board_id), params={"key": self._apikey, "token": self._token, "actions": actions, "attachments": attachments, "attachment_fields": attachment_fields, "stickers": stickers, "members": members, "member_fields": member_fields, "checkItemStates": checkItemStates, "checklists": checklists, "limit": limit, "since": since, "before": before, "filter": filter, "fields": fields, "customFieldItems": "true" if customFieldItems else None}, data=None)
         resp.raise_for_status()
         return json.loads(resp.text)
 
@@ -40,6 +40,11 @@ class Boards(object):
 
     def get_card_idCard(self, idCard, board_id, attachments=None, attachment_fields=None, actions=None, actions_entities=None, actions_display=None, actions_limit=None, action_fields=None, action_memberCreator_fields=None, members=None, member_fields=None, checkItemStates=None, checkItemState_fields=None, labels=None, checklists=None, checklist_fields=None, fields=None):
         resp = requests.get("https://trello.com/1/boards/{}/cards/{}".format(board_id, idCard), params={"key": self._apikey, "token": self._token, "attachments": attachments, "attachment_fields": attachment_fields, "actions": actions, "actions_entities": actions_entities, "actions_display": actions_display, "actions_limit": actions_limit, "action_fields": action_fields, "action_memberCreator_fields": action_memberCreator_fields, "members": members, "member_fields": member_fields, "checkItemStates": checkItemStates, "checkItemState_fields": checkItemState_fields, "labels": labels, "checklists": checklists, "checklist_fields": checklist_fields, "fields": fields}, data=None)
+        resp.raise_for_status()
+        return json.loads(resp.text)
+    
+    def get_custom_fields(self, board_id):
+        resp = requests.get("https://trello.com/1/boards/{}/customFields".format(board_id), params={"key": self._apikey, "token": self._token}, data=None)
         resp.raise_for_status()
         return json.loads(resp.text)
 
