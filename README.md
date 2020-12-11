@@ -1,9 +1,9 @@
 Python Trello API Wrapper
 =========================
 
-This Python API is simply a wrapper around the [Trello](https://trello.com/) REST API. It uses the [API documentation](https://trello.com/docs/api/index.html) to autogenerate the Python API.
+This Python API is simply a wrapper around the [Trello](https://trello.com/) REST API.
 
-This repository contains the latest generated version of the Python API (in the `trello` directory), along with the necessary files to regenerate the API.
+This library requires Python 3.6 or later. If you wish to use this with Python 2 or Python 3.5 or lower, please use version 0.9.4.
 
 Getting Started
 ---------------
@@ -16,7 +16,7 @@ or from source:
 
     python setup.py install
 
-Once you have it installed, get an app key from [https://trello.com/1/appKey/generate](https://trello.com/1/appKey/generate). It will be a 32-digit hex string. Now you can start using the API
+Once you have it installed, get an API key from [https://trello.com/app-key](https://trello.com/app-key).
 
     >>> from trello import TrelloApi
     >>> trello = TrelloApi(TRELLO_APP_KEY)
@@ -49,4 +49,3 @@ If you send your user to the resulting URL, it will ask them to allow your app a
 (*Note: Trello does support OAuth, but the Python API does not have any support for it yet.*)
 
 Once you have set the user's token, all calls to the API will include that token, as if the user was logged in.
-
