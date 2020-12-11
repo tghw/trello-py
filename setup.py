@@ -4,7 +4,7 @@ from textwrap import dedent
 
 setuptools.setup(
     name='trello',
-    version='0.9.4',
+    version='0.9.5',
     packages=['trello'],
     license=dedent("""
         Redistribution and use in source and binary forms, with or without modification,
@@ -65,7 +65,7 @@ setuptools.setup(
         'Operating System :: POSIX',
         'Operating System :: POSIX :: BSD',
         'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries',
@@ -74,6 +74,6 @@ setuptools.setup(
     ],
     install_requires = [
         "requests",
-        "pystache",
     ],
+    python_requires='>=3.6',
 )
