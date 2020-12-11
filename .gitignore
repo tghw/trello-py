@@ -7,3 +7,5 @@ _build/*
 venv/*
 env/*
 *.egg-info/*
+.idea/*
+.token
