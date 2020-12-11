@@ -1,7 +1,7 @@
-import json
+from .base import ApiBase
 import requests
 
-class Tokens(object):
+class Tokens(ApiBase):
     __module__ = 'trello'
 
     def __init__(self, apikey, token=None):
@@ -9,52 +9,42 @@ class Tokens(object):
         self._token = token
 
     def get(self, token, fields=None, webhooks=None):
-        resp = requests.get("https://trello.com/1/tokens/{}".format(token), params={"key": self._apikey, "token": self._token, "fields": fields, "webhooks": webhooks}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get(f"https://trello.com/1/tokens/{token}", params={"key": self._apikey, "token": self._token, "fields": fields, "webhooks": webhooks}, data=None)
+        return self.raise_or_json(resp)
 
     def get_field(self, field, token):
-        resp = requests.get("https://trello.com/1/tokens/{}/{}".format(token, field), params={"key": self._apikey, "token": self._token}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get(f"https://trello.com/1/tokens/{token}/{field}", params={"key": self._apikey, "token": self._token}, data=None)
+        return self.raise_or_json(resp)
 
     def get_member(self, token, fields=None):
-        resp = requests.get("https://trello.com/1/tokens/{}/member".format(token), params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get(f"https://trello.com/1/tokens/{token}/member", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
+        return self.raise_or_json(resp)
 
     def get_member_field(self, field, token):
-        resp = requests.get("https://trello.com/1/tokens/{}/member/{}".format(token, field), params={"key": self._apikey, "token": self._token}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get(f"https://trello.com/1/tokens/{token}/member/{field}", params={"key": self._apikey, "token": self._token}, data=None)
+        return self.raise_or_json(resp)
 
     def get_webhook(self, token):
-        resp = requests.get("https://trello.com/1/tokens/{}/webhooks".format(token), params={"key": self._apikey, "token": self._token}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get(f"https://trello.com/1/tokens/{token}/webhooks", params={"key": self._apikey, "token": self._token}, data=None)
+        return self.raise_or_json(resp)
 
     def get_webhook_idWebhook(self, idWebhook, token):
-        resp = requests.get("https://trello.com/1/tokens/{}/webhooks/{}".format(token, idWebhook), params={"key": self._apikey, "token": self._token}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get(f"https://trello.com/1/tokens/{token}/webhooks/{idWebhook}", params={"key": self._apikey, "token": self._token}, data=None)
+        return self.raise_or_json(resp)
 
     def update_webhook(self, token, callbackURL, idModel, description=None):
-        resp = requests.put("https://trello.com/1/tokens/{}/webhooks".format(token), params={"key": self._apikey, "token": self._token}, data={"callbackURL": callbackURL, "idModel": idModel, "description": description})
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.put(f"https://trello.com/1/tokens/{token}/webhooks", params={"key": self._apikey, "token": self._token}, data={"callbackURL": callbackURL, "idModel": idModel, "description": description})
+        return self.raise_or_json(resp)
 
     def new_webhook(self, token, callbackURL, idModel, description=None):
-        resp = requests.post("https://trello.com/1/tokens/{}/webhooks".format(token), params={"key": self._apikey, "token": self._token}, data={"callbackURL": callbackURL, "idModel": idModel, "description": description})
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.post(f"https://trello.com/1/tokens/{token}/webhooks", params={"key": self._apikey, "token": self._token}, data={"callbackURL": callbackURL, "idModel": idModel, "description": description})
+        return self.raise_or_json(resp)
 
     def delete(self, token):
-        resp = requests.delete("https://trello.com/1/tokens/{}".format(token), params={"key": self._apikey, "token": self._token}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.delete(f"https://trello.com/1/tokens/{token}", params={"key": self._apikey, "token": self._token}, data=None)
+        return self.raise_or_json(resp)
 
     def delete_webhook_idWebhook(self, idWebhook, token):
-        resp = requests.delete("https://trello.com/1/tokens/{}/webhooks/{}".format(token, idWebhook), params={"key": self._apikey, "token": self._token}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.delete(f"https://trello.com/1/tokens/{token}/webhooks/{idWebhook}", params={"key": self._apikey, "token": self._token}, data=None)
+        return self.raise_or_json(resp)
 

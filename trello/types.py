@@ -1,7 +1,7 @@
-import json
+from .base import ApiBase
 import requests
 
-class Types(object):
+class Types(ApiBase):
     __module__ = 'trello'
 
     def __init__(self, apikey, token=None):
@@ -9,7 +9,6 @@ class Types(object):
         self._token = token
 
     def get(self, team_or_user_id):
-        resp = requests.get("https://trello.com/1/types/{}".format(team_or_user_id), params={"key": self._apikey, "token": self._token}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get(f"https://trello.com/1/types/{team_or_user_id}", params={"key": self._apikey, "token": self._token}, data=None)
+        return self.raise_or_json(resp)
 

@@ -1,7 +1,7 @@
-import json
+from .base import ApiBase
 import requests
 
-class Batches(object):
+class Batches(ApiBase):
     __module__ = 'trello'
 
     def __init__(self, apikey, token=None):
@@ -9,7 +9,6 @@ class Batches(object):
         self._token = token
 
     def get(self, urls):
-        resp = requests.get("https://trello.com/1/batch".format(), params={"key": self._apikey, "token": self._token, "urls": urls}, data=None)
-        resp.raise_for_status()
-        return json.loads(resp.text)
+        resp = requests.get("https://trello.com/1/batch", params={"key": self._apikey, "token": self._token, "urls": urls}, data=None)
+        return self.raise_or_json(resp)
 

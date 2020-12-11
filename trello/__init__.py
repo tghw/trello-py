@@ -51,4 +51,4 @@ class TrelloApi(object):
         self.webhooks._token = token
 
     def get_token_url(self, app_name, expires='30days', write_access=True):
-        return 'https://trello.com/1/authorize?key={}&name={}&expiration={}&response_type=token&scope={}'.format(self._apikey, quote(app_name), expires, 'read,write' if write_access else 'read')
+        return f"https://trello.com/1/authorize?key={self._apikey}&name={quote(app_name)}&expiration={expires}&response_type=token&scope={'read,write' if write_access else 'read'}"
