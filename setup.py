@@ -4,7 +4,7 @@ from textwrap import dedent
 
 setuptools.setup(
     name='trello',
-    version='0.9.5',
+    version='0.9.6',
     packages=['trello'],
     license=dedent("""
         Redistribution and use in source and binary forms, with or without modification,
