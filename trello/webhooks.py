@@ -29,10 +29,6 @@ class Webhooks(ApiBase):
         warnings.warn('.update_() is deprecated. Please use .update()', DeprecationWarning)
         return self.update(callbackURL, idModel, description)
 
-    def update(self, callbackURL, idModel, description=None):
-        resp = requests.put("https://trello.com/1/webhooks/", params={"key": self._apikey, "token": self._token}, data={"callbackURL": callbackURL, "idModel": idModel, "description": description})
-        return self.raise_or_json(resp)
-
     def update_active(self, idWebhook, value):
         resp = requests.put(f"https://trello.com/1/webhooks/{idWebhook}/active", params={"key": self._apikey, "token": self._token}, data={"value": value})
         return self.raise_or_json(resp)
