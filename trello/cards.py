@@ -100,8 +100,8 @@ class Cards(ApiBase):
         resp = requests.put(f"https://trello.com/1/cards/{card_id_or_shortlink}/checklist/{idChecklistCurrent}/checkItem/{idCheckItem}", params={"key": self._apikey, "token": self._token}, data={"name": name, "state": state, "idChecklist": idChecklist, "pos": pos})
         return self.raise_or_json(resp)
 
-    def update_checkItem_idCheckItem(self, idCheckItem, card_id_or_shortlink, name=None, state=None, idChecklist=None, pos=None):
-        resp = requests.put(f"https://trello.com/1/cards/{card_id_or_shortlink}/checkItem/{idCheckItem}", params={"key": self._apikey, "token": self._token}, data={"name": name, "state": state, "idChecklist": idChecklist, "pos": pos})
+    def update_checkItem_idCheckItem(self, idCheckItem, card_id_or_shortlink, name=None, state=None, idChecklist=None, pos=None, due=None):
+        resp = requests.put(f"https://trello.com/1/cards/{card_id_or_shortlink}/checkItem/{idCheckItem}", params={"key": self._apikey, "token": self._token}, data={"name": name, "state": state, "idChecklist": idChecklist, "pos": pos, "due": due})
         return self.raise_or_json(resp)
 
     def update_closed(self, card_id_or_shortlink, value):
@@ -164,8 +164,8 @@ class Cards(ApiBase):
         resp = requests.post(f"https://trello.com/1/cards/{card_id_or_shortlink}/attachments", params={"key": self._apikey, "token": self._token}, data={"file": file, "url": url, "name": name, "mimeType": mimeType})
         return self.raise_or_json(resp)
 
-    def new_checklist_checkItem_idChecklist(self, idChecklist, card_id_or_shortlink, name, pos=None):
-        resp = requests.post(f"https://trello.com/1/cards/{card_id_or_shortlink}/checklist/{idChecklist}/checkItem", params={"key": self._apikey, "token": self._token}, data={"name": name, "pos": pos})
+    def new_checklist_checkItem_idChecklist(self, idChecklist, card_id_or_shortlink, name, pos=None, due=None):
+        resp = requests.post(f"https://trello.com/1/cards/{card_id_or_shortlink}/checklist/{idChecklist}/checkItem", params={"key": self._apikey, "token": self._token}, data={"name": name, "pos": pos, "due": due})
         return self.raise_or_json(resp)
 
     def new_checklist_checkItem_convertToCard_idChecklist_idCheckItem(self, idChecklist, idCheckItem, card_id_or_shortlink):
