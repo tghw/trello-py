@@ -56,8 +56,8 @@ class Checklists(ApiBase):
         resp = requests.post("https://trello.com/1/checklists", params={"key": self._apikey, "token": self._token}, data={"idCard": idCard, "name": name, "pos": pos, "idChecklistSource": idChecklistSource})
         return self.raise_or_json(resp)
 
-    def new_checkItem(self, idChecklist, name, pos=None, checked=None):
-        resp = requests.post(f"https://trello.com/1/checklists/{idChecklist}/checkItems", params={"key": self._apikey, "token": self._token}, data={"name": name, "pos": pos, "checked": checked})
+    def new_checkItem(self, idChecklist, name, pos=None, checked=None, due=None):
+        resp = requests.post(f"https://trello.com/1/checklists/{idChecklist}/checkItems", params={"key": self._apikey, "token": self._token}, data={"name": name, "pos": pos, "checked": checked, "due": due})
         return self.raise_or_json(resp)
 
     def delete(self, idChecklist):
