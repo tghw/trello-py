@@ -6,54 +6,64 @@ setuptools.setup(
     name='trello',
     version='0.9.7',
     packages=['trello'],
-    license=dedent("""
-        Redistribution and use in source and binary forms, with or without modification,
-        are permitted provided that the following conditions are met:
-
-        Redistributions of source code must retain the above copyright notice, this list
-        of conditions and the following disclaimer.  Redistributions in binary form must
-        reproduce the above copyright notice, this list of conditions and the following
-        disclaimer in the documentation and/or other materials provided with the
-        distribution.
-
-        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-        ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-        WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-        ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-        (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-        LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-        ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-        (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-    """),
+    license='3-Clause BSD License (https://opensource.org/licenses/BSD-3-Clause)',
     description='Python library for interacting with the Trello API',
     long_description=dedent("""
         Python Trello API Wrapper
+        =========================
 
-        This Python API is simply a wrapper around the Trello API
+        This library is a Python wrapper around the [Trello](https://trello.com/) REST API.
 
-        Getting Started:
+        Requires Python 3.6 or later.
 
-        To use the Trello API, install the package either by downloading the source and running
+        If you wish to use this with Python 2 or Python 3.5 or lower, please use version 0.9.4.
 
-            $ python setup.py install
+        Getting Started
+        ---------------
 
-        or by using pip
+        To use the Python API, first install it from PyPI using `pip`:
 
-            $ pip install trello
+            pip install trello
 
-        Documentation:
+        or from source:
 
-        You can find documentation for the Python API at:
+            python setup.py install
 
-            http://packages.python.org/trello/
+        Once you have it installed, get an API key from [https://trello.com/app-key](https://trello.com/app-key).
 
-        And documentation for the Trello API at:
+            >>> from trello import TrelloApi
+            >>> trello = TrelloApi(TRELLO_APP_KEY)
+            >>> trello.boards.get('4d5ea62fd76aa1136000000c')
+            {
+                "closed": false, 
+                "desc": "Trello board used by the Trello team to track work on Trello.  How meta!\n\nThe development of the Trello API is being tracked at https://trello.com/api\n\nThe development of Trello Mobile applications is being tracked at https://trello.com/mobile", 
+                "id": "4d5ea62fd76aa1136000000c", 
+                "idOrganization": "4e1452614e4b8698470000e0", 
+                "name": "Trello Development", 
+                "pinned": true, 
+                "prefs": {
+                    "comments": "public", 
+                    "invitations": "members", 
+                    "permissionLevel": "public", 
+                    "voting": "public"
+                }, 
+                "url": "https://trello.com/board/trello-development/4d5ea62fd76aa1136000000c"
+            }
 
-            https://trello.com/docs/api/
+        Because the Trello development board is public, we didn't need a user's token, but if we want to access private boards, we'll have to have one. We can get it by calling:
+
+            >>> trello.get_token_url('My App', expires='30days', write_access=True)
+                'https://trello.com/1/authorize?key=TRELLO_APP_KEY&name=My+App&expiration=30days&response_type=token&scope=read,write'
+
+        If you send your user to the resulting URL, it will ask them to allow your app access to their account, and then it will give them a token (64-digit hex string) that they will pass back to your app.
+
+            >>> trello.set_token(user_token)
+
+        (*Note: Trello does support OAuth, but the Python API does not have any support for it yet.*)
+
+        Once you have set the user's token, all calls to the API will include that token, as if the user was logged in.
     """),
-    author='tghw,kulikjak,waghanza,lukegb',
+    author='tghw,kulikjak,waghanza,lukegb,lazytarget',
     author_email='ty@tghw.com',
     url='https://github.com/tghw/trello-py',
     classifiers=[
