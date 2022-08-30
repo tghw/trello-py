@@ -76,8 +76,8 @@ class Cards(ApiBase):
         resp = requests.get(f"https://trello.com/1/cards/{card_id_or_shortlink}/stickers/{idSticker}", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
         return self.raise_or_json(resp)
 
-    def update(self, card_id_or_shortlink, name=None, desc=None, closed=None, idMembers=None, idAttachmentCover=None, idList=None, idLabels=None, idBoard=None, pos=None, due=None, dueComplete=None, subscribed=None):
-        resp = requests.put(f"https://trello.com/1/cards/{card_id_or_shortlink}", params={"key": self._apikey, "token": self._token}, data={"name": name, "desc": desc, "closed": closed, "idMembers": idMembers, "idAttachmentCover": idAttachmentCover, "idList": idList, "idLabels": idLabels, "idBoard": idBoard, "pos": pos, "due": due, "dueComplete": dueComplete, "subscribed": subscribed})
+    def update(self, card_id_or_shortlink, name=None, desc=None, closed=None, idMembers=None, idAttachmentCover=None, idList=None, idLabels=None, idBoard=None, pos=None, due=None, start=None, dueComplete=None, subscribed=None):
+        resp = requests.put(f"https://trello.com/1/cards/{card_id_or_shortlink}", params={"key": self._apikey, "token": self._token}, data={"name": name, "desc": desc, "closed": closed, "idMembers": idMembers, "idAttachmentCover": idAttachmentCover, "idList": idList, "idLabels": idLabels, "idBoard": idBoard, "pos": pos, "due": due, "start": start, "dueComplete": dueComplete, "subscribed": subscribed})
         return self.raise_or_json(resp)
 
     def update_action_comment_idAction(self, idAction, card_id_or_shortlink, text):
@@ -152,8 +152,8 @@ class Cards(ApiBase):
         resp = requests.put(f"https://trello.com/1/cards/{card_id_or_shortlink}/subscribed", params={"key": self._apikey, "token": self._token}, data={"value": value})
         return self.raise_or_json(resp)
 
-    def new(self, name, idList, desc=None, pos=None, due=None, dueComplete=None, idMembers=None, idLabels=None, urlSource=None, fileSource=None, idCardSource=None, keepFromSource=None):
-        resp = requests.post("https://trello.com/1/cards", params={"key": self._apikey, "token": self._token}, data={"name": name, "idList": idList, "desc": desc, "pos": pos, "due": due, "dueComplete": dueComplete, "idMembers": idMembers, "idLabels": idLabels, "urlSource": urlSource, "fileSource": fileSource, "idCardSource": idCardSource, "keepFromSource": keepFromSource})
+    def new(self, name, idList, desc=None, pos=None, due=None, start=None, dueComplete=None, idMembers=None, idLabels=None, urlSource=None, fileSource=None, idCardSource=None, keepFromSource=None):
+        resp = requests.post("https://trello.com/1/cards", params={"key": self._apikey, "token": self._token}, data={"name": name, "idList": idList, "desc": desc, "pos": pos, "due": due, "start": start, "dueComplete": dueComplete, "idMembers": idMembers, "idLabels": idLabels, "urlSource": urlSource, "fileSource": fileSource, "idCardSource": idCardSource, "keepFromSource": keepFromSource})
         return self.raise_or_json(resp)
 
     def new_action_comment(self, card_id_or_shortlink, text):
