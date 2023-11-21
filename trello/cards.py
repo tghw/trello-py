@@ -6,7 +6,7 @@ get Stickers
 """
 
 
-from api_client import APIClient
+from .api_client import APIClient
 
 REFERENCE_TARGET = 'cards'
 
@@ -25,17 +25,10 @@ class Cards:
         return self._api_client.get(REFERENCE_TARGET, card_id, child=field, **kwargs)
 
     def get_actions(self, card_id: str, filter: str = 'all', limit: int = 1000, **kwargs):
-        if filter:
-            kwargs['filter'] = filter
-        kwargs['limit'] = limit
-        return self._api_client.get(REFERENCE_TARGET, card_id, child='actions', **kwargs)
+        return self._api_client.get(REFERENCE_TARGET, card_id, child='actions', filter=filter, limit=limit, **kwargs)
 
-    def get_attachments(self, card_id: str, fields: str = None, filter: str = None, **kwargs):
-        if fields:
-            kwargs['filter'] = fields
-        if filter:
-            kwargs['filter'] = filter
-        return self._api_client.get(REFERENCE_TARGET, card_id, child='attachments', **kwargs)
+    def get_attachments(self, card_id: str, fields: str = 'all', filter: str = 'false', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, card_id, child='attachments', filter=filter, fields=fields, **kwargs)
 
     def get_specific_attachment(self, card_id: str, attachment_id: str, fields: str = None, **kwargs):
         if fields:
@@ -43,12 +36,10 @@ class Cards:
         return self._api_client.get(REFERENCE_TARGET, card_id, child='attachments', child_id=attachment_id, **kwargs)
 
     def get_board(self, card_id: str, fields: str = 'all', **kwargs):
-        return self._api_client.get(REFERENCE_TARGET, card_id, child_id='board', **kwargs)
+        return self._api_client.get(REFERENCE_TARGET, card_id, child_id='board', fields=fields, **kwargs)
 
     def get_checkItems(self, card_id: str, fields: str = 'all', **kwargs):
-        if fields:
-            kwargs['fields'] = fields
-        return self._api_client.get(REFERENCE_TARGET, card_id, 'checkItemStates', **kwargs)
+        return self._api_client.get(REFERENCE_TARGET, card_id, 'checkItemStates', fields=fields, **kwargs)
 
     def get_checkLists(self, card_id: str, checkItems: str = 'all', checkItem_fields: str = None, filter: str= 'all', fields: str = None, **kwargs):
         if checkItems:
@@ -67,63 +58,58 @@ class Cards:
         return self._api_client.get(REFERENCE_TARGET, card_id, child='checkItem', child_id=idcheckItem, **kwargs)
 
     def get_list(self, card_id: str, fields: str = 'all', **kwargs):
-        if fields:
-            kwargs['field'] = fields
-        return self._api_client.get(REFERENCE_TARGET, card_id, child='list', **kwargs)
+        return self._api_client.get(REFERENCE_TARGET, card_id, child='list', fields=fields, **kwargs)
 
     def get_customFields(self, card_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, card_id, child='customFieldItems', **kwargs)
 
     ### POST SECTION ###
 
-    def new_card(self, idList: str = None, query: dict = None):
-        query['idList'] = idList
-        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, query=query)
+    def new_card(self, idList: str = None, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, idList=idList, **kwargs)
 
-    def new_comment(self, card_id: str, text: str):
-        return self._api_client.post(REFERENCE_TARGET, card_id, child='actions/comments', query={'text': text})
+    def new_comment(self, card_id: str, text: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, card_id, child='actions/comments', text=text, **kwargs)
 
-    def add_label(self, card_id: str, label_id: str):
-        return self._api_client.post(REFERENCE_TARGET, card_id, child='idLabels', query={'value': label_id})
+    def add_label(self, card_id: str, label_id: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, card_id, child='idLabels', value=label_id, **kwargs)
 
-    def add_member(self, card_id: str, member_id: str):
-        return self._api_client.post(REFERENCE_TARGET, card_id, child='idMembers', query={'value': member_id})
+    def add_member(self, card_id: str, member_id: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, card_id, child='idMembers', value=member_id, **kwargs)
 
-    def create_label(self, card_id: str, color: str, name: str):
-        return self._api_client.post(REFERENCE_TARGET, card_id, child='labels', query={'color': color, 'name': name})
+    def create_label(self, card_id: str, color: str, name: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, card_id, child='labels', color=color, name=name, **kwargs)
 
-    def mark_as_read(self, card_id):
-        return self._api_client.post(REFERENCE_TARGET, card_id, child='markAssociatedNotificationsRead')
+    def mark_as_read(self, card_id, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, card_id, child='markAssociatedNotificationsRead', **kwargs)
 
     ### PUT SECTION ###
 
-    def update_card(self, card_id: str, query: dict = None):
-        return self._api_client.put(REFERENCE_TARGET, target_id=card_id, query=query)
+    def update_card(self, card_id: str, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, target_id=card_id, **kwargs)
 
     def update_cover_color(self, card_id: str, color: str, size: str = 'normal', brightness: str = 'light'):
-        return self._api_client.put(REFERENCE_TARGET, card_id, query={"cover": { 'color': color, 'size': size, 'brightness': brightness}})
+        return self._api_client.put(REFERENCE_TARGET, card_id, cover={'color': color, 'size': size, 'brightness': brightness})
 
-    def update_checkItem(self, card_id: str, idCheckItem: str, query: dict):
-        return self._api_client.put(REFERENCE_TARGET, card_id, child='checkItem', child_id=idCheckItem, query=query)
+    def update_checkItem(self, card_id: str, idCheckItem: str, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, card_id, child='checkItem', child_id=idCheckItem, **kwargs)
 
-    def update_comment(self, card_id: str, idAction: str, text: str):
+    def update_comment(self, card_id: str, idAction: str, text: str, **kwargs):
         address_addition = f"{idAction}/comments"
-        return self._api_client.put(REFERENCE_TARGET, card_id, child='actions', child_id=address_addition, query={'text': text})
+        return self._api_client.put(REFERENCE_TARGET, card_id, child='actions', child_id=address_addition, text=text, **kwargs)
 
-    def update_card_customField(self, card_id: str, idCustomField: str, query: dict):
+    def update_card_customField(self, card_id: str, idCustomField: str, **kwargs):
         address_addition = f"{idCustomField}/item"
-        return self._api_client.put(REFERENCE_TARGET, card_id, child='customField', child_id=address_addition, query={'value': query})
+        return self._api_client.put(REFERENCE_TARGET, card_id, child='customField', child_id=address_addition, **kwargs)
 
-    def update_card_multiple_customField(self, card_id: str, query_list):
-        return self._api_client.put(REFERENCE_TARGET, card_id, child='customFields', query={'customFieldItems': query_list})
+    def update_card_multiple_customField(self, card_id: str, customFieldItems, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, card_id, child='customFields', customFieldItems=customFieldItems, **kwargs)
 
-    def update_checkItem_on_checkList(self, card_id: str, idCheckItem: str, idChecklist: str, query: dict = None, pos: str|int = None):
+    def update_checkItem_on_checkList(self, card_id: str, idCheckItem: str, idChecklist: str, pos: str|int = None, **kwargs):
         address_addition = f"checklist/{idChecklist}/checkItem/{idCheckItem}"
-        if query is None:
-            query = dict()
         if pos:
-            query['pos'] = pos
-        return self._api_client.put(REFERENCE_TARGET, card_id, child=address_addition, query=query)
+            kwargs['pos'] = pos
+        return self._api_client.put(REFERENCE_TARGET, card_id, child=address_addition, **kwargs)
 
     ### Delete Section ###
 
