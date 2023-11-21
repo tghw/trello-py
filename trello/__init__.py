@@ -1,19 +1,7 @@
-from requests.utils import quote
-from .actions import Actions
-from .batches import Batches
-from .boards import Boards
+from .api_client import APIClient
 from .cards import Cards
-from .checklists import Checklists
-from .labels import Labels
-from .lists import Lists
-from .members import Members
-from .notifications import Notifications
-from .organizations import Organizations
-from .search import Search
-from .tokens import Tokens
-from .types import Types
-from .webhooks import Webhooks
 
+"""
 class TrelloApi(object):
     def __init__(self, apikey, token=None):
         self._apikey = apikey
@@ -49,6 +37,7 @@ class TrelloApi(object):
         self.tokens._token = token
         self.types._token = token
         self.webhooks._token = token
+"""
 
-    def get_token_url(self, app_name, expires='30days', write_access=True):
-        return f"https://trello.com/1/authorize?key={self._apikey}&name={quote(app_name)}&expiration={expires}&response_type=token&scope={'read,write' if write_access else 'read'}"
+ #   def get_token_url(self, app_name, expires='30days', write_access=True):
+ #       return f"https://trello.com/1/authorize?key={self._apikey}&name={quote(app_name)}&expiration={expires}&response_type=token&scope={'read,write' if write_access else 'read'}"
