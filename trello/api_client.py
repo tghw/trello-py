@@ -72,7 +72,7 @@ class APIClient(object):
 
         return _raise_or_data(resp)
 
-    def post(self, parent: str = None, target_id: str = None, require_target_id: bool = True, child: str = None, child_id: str = None, query: dict = None):
+    def post(self, parent: str = None, target_id: str = None, require_target_id: bool = True, child: str = None, child_id: str = None, **kwargs):
 
         _parent_check(parent, target_id, require_target_id)
 
@@ -80,14 +80,13 @@ class APIClient(object):
 
         json_query = self._init_params.copy()
 
-        if query:
-            json_query.update(query)
+        json_query.update(kwargs)
 
         resp = requests.post(url, json=json_query)
 
         return _raise_or_data(resp)
 
-    def put(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, query: dict = None):
+    def put(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, **kwargs):
 
         _parent_check(parent, target_id, require_target_id=True)
 
@@ -95,14 +94,13 @@ class APIClient(object):
 
         json_query = self._init_params.copy()
 
-        if query:
-            json_query.update(query)
+        json_query.update(kwargs)
 
         resp = requests.put(url, json=json_query)
 
         return _raise_or_data(resp)
 
-    def delete(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, query: dict = None):
+    def delete(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, **kwargs):
 
         _parent_check(parent, target_id, require_target_id=True)
 
@@ -110,8 +108,7 @@ class APIClient(object):
 
         json_query = self._init_params.copy()
 
-        if query:
-            json_query.update(query)
+        json_query.update(kwargs)
 
         resp = requests.delete(url, json=json_query)
 
