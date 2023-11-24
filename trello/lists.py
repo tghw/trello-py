@@ -1,78 +1,55 @@
-from .base import ApiBase
-import requests
+from .api_client import APIClient
 
-class Lists(ApiBase):
-    __module__ = 'trello'
+REFERENCE_TARGET = 'lists'
 
-    def __init__(self, apikey, token=None):
-        self._apikey = apikey
-        self._token = token
 
-    def get(self, idList, cards=None, card_fields=None, board=None, board_fields=None, fields=None):
-        resp = requests.get(f"https://trello.com/1/lists/{idList}", params={"key": self._apikey, "token": self._token, "cards": cards, "card_fields": card_fields, "board": board, "board_fields": board_fields, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+class List:
 
-    def get_field(self, field, idList):
-        resp = requests.get(f"https://trello.com/1/lists/{idList}/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def __init__(self, apikey, token):
+        self._api_client = APIClient(apikey, token)
 
-    def get_action(self, idList, entities=None, display=None, filter=None, fields=None, limit=None, format=None, since=None, before=None, page=None, idModels=None, member=None, member_fields=None, memberCreator=None, memberCreator_fields=None):
-        resp = requests.get(f"https://trello.com/1/lists/{idList}/actions", params={"key": self._apikey, "token": self._token, "entities": entities, "display": display, "filter": filter, "fields": fields, "limit": limit, "format": format, "since": since, "before": before, "page": page, "idModels": idModels, "member": member, "member_fields": member_fields, "memberCreator": memberCreator, "memberCreator_fields": memberCreator_fields}, data=None)
-        return self.raise_or_json(resp)
+    ### GET Section ###
 
-    def get_board(self, idList, fields=None):
-        resp = requests.get(f"https://trello.com/1/lists/{idList}/board", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_list(self, list_id: str, fields: str = None, **kwargs):
+        if fields: kwargs['fields'] = fields
+        return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
-    def get_board_field(self, field, idList):
-        resp = requests.get(f"https://trello.com/1/lists/{idList}/board/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_actions(self, list_id: str, filter: str = None, **kwargs):
+        if filter: kwargs['filter'] = filter
+        return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
-    def get_card(self, idList, actions=None, attachments=None, attachment_fields=None, stickers=None, members=None, member_fields=None, checkItemStates=None, checklists=None, limit=None, since=None, before=None, filter=None, fields=None):
-        resp = requests.get(f"https://trello.com/1/lists/{idList}/cards", params={"key": self._apikey, "token": self._token, "actions": actions, "attachments": attachments, "attachment_fields": attachment_fields, "stickers": stickers, "members": members, "member_fields": member_fields, "checkItemStates": checkItemStates, "checklists": checklists, "limit": limit, "since": since, "before": before, "filter": filter, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_board(self, list_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, list_id, fields=fields, **kwargs)
 
-    def get_card_filter(self, filter, idList):
-        resp = requests.get(f"https://trello.com/1/lists/{idList}/cards/{filter}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_cards(self, list_id: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, list_id, child='cards', **kwargs)
 
-    def update(self, idList, name=None, closed=None, idBoard=None, pos=None, subscribed=None):
-        resp = requests.put(f"https://trello.com/1/lists/{idList}", params={"key": self._apikey, "token": self._token}, data={"name": name, "closed": closed, "idBoard": idBoard, "pos": pos, "subscribed": subscribed})
-        return self.raise_or_json(resp)
+    ### POST Section ###
 
-    def update_closed(self, idList, value):
-        resp = requests.put(f"https://trello.com/1/lists/{idList}/closed", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    def new_list(self, name: str, idBoard: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, require_target_id = False, name=name, idBoard=idBoard, **kwargs)
 
-    def update_idBoard(self, idList, value, pos=None):
-        resp = requests.put(f"https://trello.com/1/lists/{idList}/idBoard", params={"key": self._apikey, "token": self._token}, data={"value": value, "pos": pos})
-        return self.raise_or_json(resp)
+    def archive_cards(self, list_id: str):
+        return self._api_client.post(REFERENCE_TARGET, list_id, child='archiveAllCards')
 
-    def update_name(self, idList, value):
-        resp = requests.put(f"https://trello.com/1/lists/{idList}/name", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    def move_all_cards(self, list_id: str, to_idBoard: str, to_idList: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, list_id, child='moveAllCards', idBoard=to_idBoard, idList=to_idList, **kwargs)
 
-    def update_po(self, idList, value):
-        resp = requests.put(f"https://trello.com/1/lists/{idList}/pos", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    ### PUT Section ###
+    def update_list(self, list_id: str, name: str = None, to_idBoard: str = None, **kwargs):
+        if name: kwargs['name'] = name
+        if name: kwargs['idBoard'] = to_idBoard
+        return self._api_client.put(REFERENCE_TARGET, list_id, **kwargs)
 
-    def update_subscribed(self, idList, value):
-        resp = requests.put(f"https://trello.com/1/lists/{idList}/subscribed", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    def archive_or_unarchive(self, list_id: str, archive: bool = False, unarchive: bool = False, **kwargs):
+        if archive: kwargs['value'] = 'true'
+        if unarchive: kwargs['value'] = 'false'
+        return self._api_client.put(REFERENCE_TARGET, list_id, child='closed', **kwargs)
 
-    def new(self, name, idBoard, idListSource=None, pos=None):
-        resp = requests.post("https://trello.com/1/lists", params={"key": self._apikey, "token": self._token}, data={"name": name, "idBoard": idBoard, "idListSource": idListSource, "pos": pos})
-        return self.raise_or_json(resp)
+    def move_list_to_board(self, list_id: str, to_idBoard: str, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, list_id, child='idBoard', value=to_idBoard, **kwargs)
 
-    def new_archiveAllCard(self, idList):
-        resp = requests.post(f"https://trello.com/1/lists/{idList}/archiveAllCards", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def update_field(self, list_id: str, field: str, field_value: str|int, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, list_id, child=field, value=field_value, **kwargs)
 
-    def new_card(self, idList, name, due, desc=None, labels=None, idMembers=None):
-        resp = requests.post(f"https://trello.com/1/lists/{idList}/cards", params={"key": self._apikey, "token": self._token}, data={"name": name, "due": due, "desc": desc, "labels": labels, "idMembers": idMembers})
-        return self.raise_or_json(resp)
-
-    def new_moveAllCard_idList(self, idList, idList2, idBoard):
-        resp = requests.post(f"https://trello.com/1/lists/{idList}/moveAllCards", params={"key": self._apikey, "token": self._token}, data={"idBoard": idBoard, "idList": idList2})
-        return self.raise_or_json(resp)
-
+    ### Delete/Archive Section ###

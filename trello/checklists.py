@@ -1,70 +1,55 @@
-from .base import ApiBase
-import requests
+from .api_client import APIClient
 
-class Checklists(ApiBase):
-    __module__ = 'trello'
+REFERENCE_TARGET = 'lists'
 
-    def __init__(self, apikey, token=None):
-        self._apikey = apikey
-        self._token = token
 
-    def get(self, idChecklist, cards=None, card_fields=None, checkItems=None, checkItem_fields=None, fields=None):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}", params={"key": self._apikey, "token": self._token, "cards": cards, "card_fields": card_fields, "checkItems": checkItems, "checkItem_fields": checkItem_fields, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+class List:
 
-    def get_field(self, field, idChecklist):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def __init__(self, apikey, token):
+        self._api_client = APIClient(apikey, token)
 
-    def get_board(self, idChecklist, fields=None):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}/board", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    ### GET Section ###
 
-    def get_board_field(self, field, idChecklist):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}/board/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_list(self, list_id: str, fields: str = None, **kwargs):
+        if fields: kwargs['fields'] = fields
+        return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
-    def get_card(self, idChecklist, actions=None, attachments=None, attachment_fields=None, stickers=None, members=None, member_fields=None, checkItemStates=None, checklists=None, limit=None, since=None, before=None, filter=None, fields=None):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}/cards", params={"key": self._apikey, "token": self._token, "actions": actions, "attachments": attachments, "attachment_fields": attachment_fields, "stickers": stickers, "members": members, "member_fields": member_fields, "checkItemStates": checkItemStates, "checklists": checklists, "limit": limit, "since": since, "before": before, "filter": filter, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_actions(self, list_id: str, filter: str = None, **kwargs):
+        if filter: kwargs['filter'] = filter
+        return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
-    def get_card_filter(self, filter, idChecklist):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}/cards/{filter}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_board(self, list_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, list_id, fields=fields, **kwargs)
 
-    def get_checkItem(self, idChecklist, filter=None, fields=None):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}/checkItems", params={"key": self._apikey, "token": self._token, "filter": filter, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_cards(self, list_id: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, list_id, child='cards', **kwargs)
 
-    def get_checkItem_idCheckItem(self, idCheckItem, idChecklist, fields=None):
-        resp = requests.get(f"https://trello.com/1/checklists/{idChecklist}/checkItems/{idCheckItem}", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    ### POST Section ###
 
-    def update(self, idChecklist, name=None, pos=None):
-        resp = requests.put(f"https://trello.com/1/checklists/{idChecklist}", params={"key": self._apikey, "token": self._token}, data={"name": name, "pos": pos})
-        return self.raise_or_json(resp)
+    def new_list(self, name: str, idBoard: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, require_target_id = False, name=name, idBoard=idBoard, **kwargs)
 
-    def update_name(self, idChecklist, value):
-        resp = requests.put(f"https://trello.com/1/checklists/{idChecklist}/name", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    def archive_cards(self, list_id: str):
+        return self._api_client.post(REFERENCE_TARGET, list_id, child='archiveAllCards')
 
-    def update_po(self, idChecklist, value):
-        resp = requests.put(f"https://trello.com/1/checklists/{idChecklist}/pos", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    def move_all_cards(self, list_id: str, to_idBoard: str, to_idList: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, list_id, child='moveAllCards', idBoard=to_idBoard, idList=to_idList, **kwargs)
 
-    def new(self, idCard, name=None, pos=None, idChecklistSource=None):
-        resp = requests.post("https://trello.com/1/checklists", params={"key": self._apikey, "token": self._token}, data={"idCard": idCard, "name": name, "pos": pos, "idChecklistSource": idChecklistSource})
-        return self.raise_or_json(resp)
+    ### PUT Section ###
+    def update_list(self, list_id: str, name: str = None, to_idBoard: str = None, **kwargs):
+        if name: kwargs['name'] = name
+        if name: kwargs['idBoard'] = to_idBoard
+        return self._api_client.put(REFERENCE_TARGET, list_id, **kwargs)
 
-    def new_checkItem(self, idChecklist, name, pos=None, checked=None, due=None):
-        resp = requests.post(f"https://trello.com/1/checklists/{idChecklist}/checkItems", params={"key": self._apikey, "token": self._token}, data={"name": name, "pos": pos, "checked": checked, "due": due})
-        return self.raise_or_json(resp)
+    def archive_or_unarchive(self, list_id: str, archive: bool = False, unarchive: bool = False, **kwargs):
+        if archive: kwargs['value'] = 'true'
+        if unarchive: kwargs['value'] = 'false'
+        return self._api_client.put(REFERENCE_TARGET, list_id, child='closed', **kwargs)
 
-    def delete(self, idChecklist):
-        resp = requests.delete(f"https://trello.com/1/checklists/{idChecklist}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def move_list_to_board(self, list_id: str, to_idBoard: str, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, list_id, child='idBoard', value=to_idBoard, **kwargs)
 
-    def delete_checkItem_idCheckItem(self, idCheckItem, idChecklist):
-        resp = requests.delete(f"https://trello.com/1/checklists/{idChecklist}/checkItems/{idCheckItem}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def update_field(self, list_id: str, field: str, field_value: str|int, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, list_id, child=field, value=field_value, **kwargs)
 
+    ### Delete/Archive Section ###
