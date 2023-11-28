@@ -1,42 +1,37 @@
-from .base import ApiBase
-import requests
+from .api_client import APIClient
 
-class Labels(ApiBase):
+REFERENCE_TARGET = 'labels'
+
+
+class Labels:
     __module__ = 'trello'
 
-    def __init__(self, apikey, token=None):
-        self._apikey = apikey
-        self._token = token
+    def __init__(self, apikey, token):
+        self._api_client = APIClient(apikey, token)
 
-    def get(self, idLabel, fields=None):
-        resp = requests.get(f"https://trello.com/1/labels/{idLabel}", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    ### Get Section ###
 
-    def get_board(self, idLabel, fields=None):
-        resp = requests.get(f"https://trello.com/1/labels/{idLabel}/board", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_label(self, label_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, label_id, fields=fields, **kwargs)
 
-    def get_board_field(self, field, idLabel):
-        resp = requests.get(f"https://trello.com/1/labels/{idLabel}/board/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    ### Post Section ###
 
-    def update(self, idLabel, name=None, color=None):
-        resp = requests.put(f"https://trello.com/1/labels/{idLabel}", params={"key": self._apikey, "token": self._token}, data={"name": name, "color": color})
-        return self.raise_or_json(resp)
+    def add_label(self, name: str, color: str, board_id: str, **kwargs):
+        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, name=name, color=color, idBoard=board_id, **kwargs)
 
-    def update_color(self, idLabel, value):
-        resp = requests.put(f"https://trello.com/1/labels/{idLabel}/color", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    ### Put Section ###
 
-    def update_name(self, idLabel, value):
-        resp = requests.put(f"https://trello.com/1/labels/{idLabel}/name", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    def update_label(self, label_id: str, name: str = None, color: str = None, **kwargs):
+        if name: kwargs['name'] = name
+        if color: kwargs['color'] = color
+        return self._api_client.put(REFERENCE_TARGET, label_id, **kwargs)
 
-    def new(self, name, color, idBoard):
-        resp = requests.post("https://trello.com/1/labels", params={"key": self._apikey, "token": self._token}, data={"name": name, "color": color, "idBoard": idBoard})
-        return self.raise_or_json(resp)
+    def update_label_field(self, label_id: str, field: str, value: str, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, label_id, child=field, value=value, **kwargs)
 
-    def delete(self, idLabel):
-        resp = requests.delete(f"https://trello.com/1/labels/{idLabel}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    ### Delete Section ###
+
+    def delete_label(self, label_id: str, **kwargs):
+        return self._api_client.delete(REFERENCE_TARGET, label_id, **kwargs)
+
 

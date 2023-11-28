@@ -4,17 +4,18 @@ REFERENCE_TARGET = 'lists'
 
 
 class List:
+    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
 
     ### GET Section ###
 
-    def get_list(self, list_id: str, fields: str = None, **kwargs):
+    def get_checklist(self, list_id: str, fields: str = None, **kwargs):
         if fields: kwargs['fields'] = fields
         return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
-    def get_actions(self, list_id: str, filter: str = None, **kwargs):
+    def get_checklist_actions(self, list_id: str, filter: str = None, **kwargs):
         if filter: kwargs['filter'] = filter
         return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
@@ -36,20 +37,20 @@ class List:
         return self._api_client.post(REFERENCE_TARGET, list_id, child='moveAllCards', idBoard=to_idBoard, idList=to_idList, **kwargs)
 
     ### PUT Section ###
-    def update_list(self, list_id: str, name: str = None, to_idBoard: str = None, **kwargs):
+    def update_checklist(self, list_id: str, name: str = None, to_idBoard: str = None, **kwargs):
         if name: kwargs['name'] = name
         if name: kwargs['idBoard'] = to_idBoard
         return self._api_client.put(REFERENCE_TARGET, list_id, **kwargs)
 
-    def archive_or_unarchive(self, list_id: str, archive: bool = False, unarchive: bool = False, **kwargs):
+    def archive_or_unarchive_checklist(self, list_id: str, archive: bool = False, unarchive: bool = False, **kwargs):
         if archive: kwargs['value'] = 'true'
         if unarchive: kwargs['value'] = 'false'
         return self._api_client.put(REFERENCE_TARGET, list_id, child='closed', **kwargs)
 
-    def move_list_to_board(self, list_id: str, to_idBoard: str, **kwargs):
+    def move_checklist_to_board(self, list_id: str, to_idBoard: str, **kwargs):
         return self._api_client.put(REFERENCE_TARGET, list_id, child='idBoard', value=to_idBoard, **kwargs)
 
-    def update_field(self, list_id: str, field: str, field_value: str|int, **kwargs):
+    def update_checklist_field(self, list_id: str, field: str, field_value: str|int, **kwargs):
         return self._api_client.put(REFERENCE_TARGET, list_id, child=field, value=field_value, **kwargs)
 
     ### Delete/Archive Section ###

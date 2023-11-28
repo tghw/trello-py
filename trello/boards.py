@@ -4,6 +4,7 @@ REFERENCE_TARGET = 'boards'
 
 
 class Boards:
+    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
@@ -13,19 +14,19 @@ class Boards:
     def get_board(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, **kwargs)
 
-    def get_field(self, board_id: str, field: str, **kwargs):
+    def get_board_field(self, board_id: str, field: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child=field, **kwargs)
 
-    def get_actions(self, board_id: str, **kwargs):
+    def get_board_actions(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='actions', **kwargs)
 
     def get_card(self, board_id: str, card_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='cards', child_id=card_id, **kwargs)
 
-    def get_stars(self, board_id: str, **kwargs):
+    def get_board_stars(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='boardStars', **kwargs)
 
-    def get_checklists(self, board_id: str, **kwargs):
+    def get_board_checklists(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='checklists', **kwargs)
 
     def get_all_cards(self, board_id: str, **kwargs):
@@ -34,19 +35,19 @@ class Boards:
     def get_filtered_cards(self, board_id: str, filter: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='cards', child_id=filter, **kwargs)
 
-    def get_customfields(self, board_id: str, **kwargs):
+    def get_board_customfields(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='customFields', **kwargs)
 
-    def get_label(self, board_id: str, **kwargs):
+    def get_board_label(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='labels', **kwargs)
 
-    def get_lists(self, board_id: str, **kwargs):
+    def get_board_lists(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='lists', **kwargs)
 
     def get_filtered_lists(self, board_id: str, filter: str = 'all', **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='lists', child_id=filter, **kwargs)
 
-    def get_members(self, board_id: str, **kwargs):
+    def get_board_members(self, board_id: str, **kwargs):
         return self._api_client.get(REFERENCE_TARGET, board_id, child='members', **kwargs)
 
     def get_enabled_power_ups(self, board_id: str, **kwargs):
@@ -57,22 +58,22 @@ class Boards:
 
     ### Post Section ###
 
-    def add_label(self, board_id: str, name: str, color: str, **kwargs):
+    def add_board_label(self, board_id: str, name: str, color: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, board_id, child='labels', name=name, color=color, **kwargs)
 
-    def add_list(self, board_id: str, name: str, **kwargs):
+    def add_board_list(self, board_id: str, name: str, **kwargs):
         return self._api_client.put(REFERENCE_TARGET, board_id, child='lists', name=name, **kwargs)
 
     def new_board(self, name: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, require_target_id=False, name=name, **kwargs)
 
-    def add_calendarKey(self, board_id: str, **kwargs):
+    def add_board_calendarKey(self, board_id: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, board_id, child='calendarKey/generate', **kwargs)
 
-    def add_emailKey(self, board_id: str, **kwargs):
+    def add_board_emailKey(self, board_id: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, board_id, child='emailKey/generate', **kwargs)
 
-    def add_tag(self, board_id: str, value: str, **kwargs):
+    def add_board_tag(self, board_id: str, value: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, board_id, child='idTags', value=value, **kwargs)
 
     def mark_viewed(self, board_id: str, **kwargs):

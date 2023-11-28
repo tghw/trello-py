@@ -4,6 +4,7 @@ REFERENCE_TARGET = 'lists'
 
 
 class List:
+    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
@@ -14,7 +15,7 @@ class List:
         if fields: kwargs['fields'] = fields
         return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
-    def get_actions(self, list_id: str, filter: str = None, **kwargs):
+    def get_list_actions(self, list_id: str, filter: str = None, **kwargs):
         if filter: kwargs['filter'] = filter
         return self._api_client.get(REFERENCE_TARGET, list_id, **kwargs)
 
@@ -41,7 +42,7 @@ class List:
         if name: kwargs['idBoard'] = to_idBoard
         return self._api_client.put(REFERENCE_TARGET, list_id, **kwargs)
 
-    def archive_or_unarchive(self, list_id: str, archive: bool = False, unarchive: bool = False, **kwargs):
+    def archive_or_unarchive_list(self, list_id: str, archive: bool = False, unarchive: bool = False, **kwargs):
         if archive: kwargs['value'] = 'true'
         if unarchive: kwargs['value'] = 'false'
         return self._api_client.put(REFERENCE_TARGET, list_id, child='closed', **kwargs)
@@ -49,7 +50,7 @@ class List:
     def move_list_to_board(self, list_id: str, to_idBoard: str, **kwargs):
         return self._api_client.put(REFERENCE_TARGET, list_id, child='idBoard', value=to_idBoard, **kwargs)
 
-    def update_field(self, list_id: str, field: str, field_value: str|int, **kwargs):
+    def update_list_field(self, list_id: str, field: str, field_value: str|int, **kwargs):
         return self._api_client.put(REFERENCE_TARGET, list_id, child=field, value=field_value, **kwargs)
 
     ### Delete/Archive Section ###
