@@ -34,6 +34,7 @@ def _raise_or_data(resp):
 
 
 class APIClient(object):
+    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._apikey = apikey
@@ -51,16 +52,13 @@ class APIClient(object):
                 url += f"/{child_id}"
         return url
 
-    def get(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, query: dict = None, **kwargs):
+    def get(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, required_target_id: bool = True, **kwargs):
 
-        _parent_check(parent, target_id, require_target_id=True)
+        _parent_check(parent, target_id, require_target_id=required_target_id)
 
         url = self._construct_url(parent, target_id, child, child_id)
 
         params = self._init_params.copy()
-
-        if query:
-            params.update(query)
 
         limit = kwargs.pop('limit', MAX_TRELLO_LIMIT)  # Extract and remove 'limit' from kwargs
         params['limit'] = limit
