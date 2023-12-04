@@ -1,14 +1,20 @@
-from .base import ApiBase
-import requests
+# TODO: is this needed for our System
 
-class Batches(ApiBase):
-    __module__ = 'trello'
+from .api_client import APIClient
 
-    def __init__(self, apikey, token=None):
-        self._apikey = apikey
-        self._token = token
+REFERENCE_TARGET = 'batch'
 
-    def get(self, urls):
-        resp = requests.get("https://trello.com/1/batch", params={"key": self._apikey, "token": self._token, "urls": urls}, data=None)
-        return self.raise_or_json(resp)
+
+class Batch:
+
+    def __init__(self, apikey, token):
+        self._api_client = APIClient(apikey, token)
+
+    ### Get Section ###
+
+    ### Post Section ###
+
+    ### Put Section ###
+
+    ### Delete Section ###
 
