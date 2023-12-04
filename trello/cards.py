@@ -58,7 +58,7 @@ class Cards:
     ### POST SECTION ###
 
     def new_card(self, idList: str = None, **kwargs):
-        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, idList=idList, **kwargs)
+        return self._api_client.post(REFERENCE_TARGET, required_target_id=False, idList=idList, **kwargs)
 
     def new_comment(self, card_id: str, text: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, card_id, child='actions/comments', text=text, **kwargs)

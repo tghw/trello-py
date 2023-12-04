@@ -22,7 +22,7 @@ class CustomFields:
     ### Post Section ###
 
     def new_board_customfield_field(self, model_id: str, name: str, field_type: str, pos: str | int, **kwargs):
-        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, idModel=model_id, modelType='board', name=name, type=field_type, pos=pos, **kwargs)
+        return self._api_client.post(REFERENCE_TARGET, required_target_id=False, idModel=model_id, modelType='board', name=name, type=field_type, pos=pos, **kwargs)
 
     def new_customfield_option(self, customfields_id: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, customfields_id, child='options', **kwargs)

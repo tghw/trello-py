@@ -46,7 +46,7 @@ class Organizations:
     ### Post Section ###
 
     def new_workspace(self, displayName: str, desc: str, name: str, **kwargs):
-        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, displayName=displayName, desc=desc, name=name, **kwargs)
+        return self._api_client.post(REFERENCE_TARGET, required_target_id=False, displayName=displayName, desc=desc, name=name, **kwargs)
 
     def create_exports(self, workspace_id: str, attachments: bool | str, **kwargs):
         if attachments: kwargs['attachments'] = 'true'

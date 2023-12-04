@@ -64,7 +64,7 @@ class Boards:
         return self._api_client.put(REFERENCE_TARGET, board_id, child='lists', name=name, **kwargs)
 
     def new_board(self, name: str, **kwargs):
-        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, name=name, **kwargs)
+        return self._api_client.post(REFERENCE_TARGET, required_target_id=False, name=name, **kwargs)
 
     def add_board_calendarKey(self, board_id: str, **kwargs):
         return self._api_client.post(REFERENCE_TARGET, board_id, child='calendarKey/generate', **kwargs)

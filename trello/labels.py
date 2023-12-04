@@ -16,7 +16,7 @@ class Labels:
     ### Post Section ###
 
     def add_label(self, name: str, color: str, board_id: str, **kwargs):
-        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, name=name, color=color, idBoard=board_id, **kwargs)
+        return self._api_client.post(REFERENCE_TARGET, required_target_id=False, name=name, color=color, idBoard=board_id, **kwargs)
 
     ### Put Section ###
 

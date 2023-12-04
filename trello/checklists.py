@@ -27,7 +27,7 @@ class Checklists:
     ### POST Section ###
 
     def new_list(self, name: str, idBoard: str, **kwargs):
-        return self._api_client.post(REFERENCE_TARGET, require_target_id = False, name=name, idBoard=idBoard, **kwargs)
+        return self._api_client.post(REFERENCE_TARGET, required_target_id = False, name=name, idBoard=idBoard, **kwargs)
 
     def archive_cards(self, list_id: str):
         return self._api_client.post(REFERENCE_TARGET, list_id, child='archiveAllCards')

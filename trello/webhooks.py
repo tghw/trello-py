@@ -19,7 +19,7 @@ class Webhooks:
     ### Post Section ###
 
     def new_webhook(self, model_id: str, callbackURL: str = 'url', **kwargs):
-        return self._api_client.post(REFERENCE_TARGET, require_target_id=False, idModel=model_id, callbackURL=callbackURL, **kwargs)
+        return self._api_client.post(REFERENCE_TARGET, required_target_id=False, idModel=model_id, callbackURL=callbackURL, **kwargs)
 
     ### Put Section ###
 
