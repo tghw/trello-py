@@ -2,8 +2,8 @@ from .api_client import APIClient
 
 REFERENCE_TARGET = 'organizations'
 
+
 class Organizations:
-    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
