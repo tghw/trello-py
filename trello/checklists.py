@@ -1,10 +1,9 @@
 from .api_client import APIClient
 
-REFERENCE_TARGET = 'lists'
+REFERENCE_TARGET = 'checklists'
 
 
-class List:
-    __module__ = 'trello'
+class Checklists:
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
