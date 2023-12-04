@@ -1,87 +1,62 @@
-from .base import ApiBase
-import requests
+from .api_client import APIClient
+
+REFERENCE_TARGET = 'labels'
 
 
-class Actions(ApiBase):
-    __module__ = 'trello'
+class Actions:
 
-    def __init__(self, apikey, token=None):
-        self._apikey = apikey
-        self._token = token
+    def __init__(self, apikey, token):
+        self._api_client = APIClient(apikey, token)
 
-    def get(self, idAction, display=None, entities=None, fields=None, member=None, member_fields=None, memberCreator=None, memberCreator_fields=None):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}", params={"key": self._apikey, "token": self._token, "display": display, "entities": entities, "fields": fields, "member": member, "member_fields": member_fields, "memberCreator": memberCreator, "memberCreator_fields": memberCreator_fields}, data=None)
-        return self.raise_or_json(resp)
+    ### Get Section ###
 
-    def get_field(self, field, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_action(self, action_id: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, **kwargs)
 
-    def get_board(self, idAction, fields=None):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/board", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_field(self, action_id: str, field: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child=field, **kwargs)
 
-    def get_board_field(self, field, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/board/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_board(self, action_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='board', fields=fields, **kwargs)
 
-    def get_card(self, idAction, fields=None):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/card", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_card(self, action_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='card', fields=fields, **kwargs)
 
-    def get_card_field(self, field, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/card/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_member(self, action_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='member', fields=fields, **kwargs)
 
-    def get_display(self, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/display", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_member_creato(self, actions_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, actions_id, child='memberCreator', fields=fields, **kwargs)
 
-    def get_entitie(self, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/entities", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_organization(self, actions_id: str, fields: str = 'all', **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, actions_id, child='organization', fields=fields, **kwargs)
 
-    def get_list(self, idAction, fields=None):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/list", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_reactions(self, action_id: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='reactions', **kwargs)
 
-    def get_list_field(self, field, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/list/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_reaction_info(self, action_id: str, reaction_id: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='reactions', child_id=reaction_id, **kwargs)
 
-    def get_member(self, idAction, fields=None):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/member", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def get_action_summary(self, action_id: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='reactionsSummary', **kwargs)
 
-    def get_member_field(self, field, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/member/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    ### Post Section ###
 
-    def get_memberCreator(self, idAction, fields=None):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/memberCreator", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def new_reaction(self, action_id: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='reactions', **kwargs)
 
-    def get_memberCreator_field(self, field, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/memberCreator/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    ### Put Section ###
 
-    def get_organization(self, idAction, fields=None):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/organization", params={"key": self._apikey, "token": self._token, "fields": fields}, data=None)
-        return self.raise_or_json(resp)
+    def update_action(self, action_id: str, text: str, **kwargs):
+        return self._api_client.put(REFERENCE_TARGET, action_id, text=text, **kwargs)
 
-    def get_organization_field(self, field, idAction):
-        resp = requests.get(f"https://trello.com/1/actions/{idAction}/organization/{field}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
+    def update_comment(self, action_id: str, value: str, **kwargs):
+        return self._api_client.get(REFERENCE_TARGET, action_id, child='text', value=value, **kwargs)
 
-    def update(self, idAction, text=None):
-        resp = requests.put(f"https://trello.com/1/actions/{idAction}", params={"key": self._apikey, "token": self._token}, data={"text": text})
-        return self.raise_or_json(resp)
+    ### Delete Section ###
 
-    def update_text(self, idAction, value):
-        resp = requests.put(f"https://trello.com/1/actions/{idAction}/text", params={"key": self._apikey, "token": self._token}, data={"value": value})
-        return self.raise_or_json(resp)
+    def delete_action(self, action_id: str, **kwargs):
+        return self._api_client.delete(REFERENCE_TARGET, action_id, **kwargs)
 
-    def delete(self, idAction):
-        resp = requests.delete(f"https://trello.com/1/actions/{idAction}", params={"key": self._apikey, "token": self._token}, data=None)
-        return self.raise_or_json(resp)
-
+    def delete_reaction(self, action_id: str, reaction_id: str, **kwargs):
+        return self._api_client.delete(REFERENCE_TARGET, action_id, child='reactions', child_id=reaction_id, **kwargs)
