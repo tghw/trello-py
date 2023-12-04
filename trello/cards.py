@@ -1,18 +1,9 @@
-# TODO: write up gets
-"""
-get Members
-get pluginData
-get Stickers
-"""
-
-
 from .api_client import APIClient
 
 REFERENCE_TARGET = 'cards'
 
 
 class Cards:
-    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
