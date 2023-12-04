@@ -9,3 +9,4 @@ env/*
 *.egg-info/*
 .idea/*
 .token
+test/.test
