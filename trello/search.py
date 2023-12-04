@@ -3,8 +3,7 @@ from .api_client import APIClient
 REFERENCE_TARGET = 'search'
 
 
-class Labels:
-    __module__ = 'trello'
+class Search:
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
