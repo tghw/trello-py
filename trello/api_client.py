@@ -1,17 +1,23 @@
 # TODO: insert logging capability in here?
+# TODO: Other kinds or different way of Error Validation and Methods and Calls?
 
 import requests
 
 MAX_TRELLO_LIMIT = 1000  # current max value allowed by Trello
 
 
-def _parent_check(parent, target_id, require_target_id):
+class CustomAPIError(Exception):
+    """Exception raised for errors in the Trello API client."""
+    pass
+
+
+def _parent_check(parent, target_id, required_target_id):
     if parent is None:
         raise ValueError("Parent target not entered. Example: boards, list, cards")
     elif not isinstance(parent, str):
         raise TypeError("parent parameter not in the right form. Must be (str)")
 
-    if require_target_id:
+    if required_target_id:
         if target_id is None:
             raise ValueError("id of the parent target not parsed. Check value entered. Refer to Trello REST Document for details")
         elif not isinstance(target_id, str):
@@ -21,20 +27,18 @@ def _parent_check(parent, target_id, require_target_id):
 def _raise_or_data(resp):
     try:
         resp.raise_for_status()
-        # Insert logging for here?
         if resp.ok:
             data = resp.json()
             results_count = len(data) if isinstance(data, list) else 1
             print(f"====================| Ok (HTTP 200) Fetched results {results_count} |====================")
             return data
     except requests.HTTPError as e:
-        # Insert logging here?
-        # return {"error": "HTTP error occurred", "code": e.response.status_code}
-        raise e
+        raise CustomAPIError(f"HTTP error occurred: {e.response.status_code} - {e.response.reason}") from e
+    except ValueError as e:
+        raise CustomAPIError("Error decoding JSON response") from e
 
 
 class APIClient(object):
-    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._apikey = apikey
@@ -52,31 +56,32 @@ class APIClient(object):
                 url += f"/{child_id}"
         return url
 
-    def get(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, required_target_id: bool = True, **kwargs):
+    def _request_builder(self, parent, target_id, child, child_id, required_target_id):
 
-        _parent_check(parent, target_id, require_target_id=required_target_id)
+        _parent_check(parent, target_id, required_target_id=required_target_id)
 
         url = self._construct_url(parent, target_id, child, child_id)
 
         params = self._init_params.copy()
 
+        return url, params
+
+    def get(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, required_target_id: bool = True, **kwargs):
+
+        url, params = self._request_builder(parent, target_id, child, child_id, required_target_id)
+
         limit = kwargs.pop('limit', MAX_TRELLO_LIMIT)  # Extract and remove 'limit' from kwargs
         params['limit'] = limit
 
-        # Update params with the remaining items in kwargs
         params.update(kwargs)
 
         resp = requests.get(url, params=params)
 
         return _raise_or_data(resp)
 
-    def post(self, parent: str = None, target_id: str = None, require_target_id: bool = True, child: str = None, child_id: str = None, **kwargs):
+    def post(self, parent: str = None, target_id: str = None, required_target_id: bool = True, child: str = None, child_id: str = None, **kwargs):
 
-        _parent_check(parent, target_id, require_target_id)
-
-        url = self._construct_url(parent, target_id, child, child_id)
-
-        json_query = self._init_params.copy()
+        url, json_query = self._request_builder(parent, target_id, child, child_id, required_target_id)
 
         json_query.update(kwargs)
 
@@ -86,11 +91,7 @@ class APIClient(object):
 
     def put(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, **kwargs):
 
-        _parent_check(parent, target_id, require_target_id=True)
-
-        url = self._construct_url(parent, target_id, child, child_id)
-
-        json_query = self._init_params.copy()
+        url, json_query = self._request_builder(parent, target_id, child, child_id, required_target_id=True)
 
         json_query.update(kwargs)
 
@@ -100,11 +101,7 @@ class APIClient(object):
 
     def delete(self, parent: str = None, target_id: str = None, child: str = None, child_id: str = None, **kwargs):
 
-        _parent_check(parent, target_id, require_target_id=True)
-
-        url = self._construct_url(parent, target_id, child, child_id)
-
-        json_query = self._init_params.copy()
+        url, json_query = self._request_builder(parent, target_id, child, child_id, required_target_id=True)
 
         json_query.update(kwargs)
 
