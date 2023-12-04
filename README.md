@@ -3,7 +3,7 @@ Python Trello API Wrapper
 
 This library is a Python wrapper around the [Trello](https://trello.com/) REST API.
 
-Requires Python 3.6 or later.
+Requires Python 3.8 or later.
 
 Getting Started
 ---------------
