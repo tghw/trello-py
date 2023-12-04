@@ -97,4 +97,3 @@ class Organizations:
 
     def delet_organization_tag(self, organization_id: str, tag_id: str, **kwargs):
         return self._api_client.delete(REFERENCE_TARGET, organization_id, child='tags', child_id=tag_id, **kwargs)
-

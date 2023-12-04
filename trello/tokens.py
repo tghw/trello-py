@@ -39,5 +39,3 @@ class Tokens:
 
     def delete_token(self, token: str, **kwargs):
         return self._api_client.delete(REFERENCE_TARGET, token, **kwargs)
-
-

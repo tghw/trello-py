@@ -1,4 +1,4 @@
-from .api_client import APIClient
+#from .api_client import APIClient
 from .actions import Actions
 from .boards import Boards
 from .cards import Cards
@@ -28,6 +28,20 @@ class TrelloAPI:
     def set_token(self, token):
         self._token = token
 
+    # NOTE: FYI When using these functions that return an instance of a class,
+    #    you _should_ be able to chain them together into a single statement.
+    #  Rather tha doing something like:
+    #  > trello_api = TrelloApi(...)
+    #  > actions = trello_api.actions()
+    #  > actions.get_action(...)
+    #  You could instead do:
+    #  > TrelloApi(...).actions().get_action(...)
+    #  even though both should work the same.
+    #  The TrelloAPI object probably makes sense to declare and re-use so you don't
+    #    have to continuously pass the key and token, but all the actions/boards/etc.
+    #    would probably benefit from this chaining.
+    # TODO All function names should consist of only lower cases letters, numbers, and underscores
+    # i.e. def actions(self):
     def Actions(self):
         return Actions(self._apikey, self._token)
 

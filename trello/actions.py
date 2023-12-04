@@ -25,7 +25,7 @@ class Actions:
     def get_action_member(self, action_id: str, fields: str = 'all', **kwargs):
         return self._api_client.get(REFERENCE_TARGET, action_id, child='member', fields=fields, **kwargs)
 
-    def get_action_member_creato(self, actions_id: str, fields: str = 'all', **kwargs):
+    def get_action_member_creator(self, actions_id: str, fields: str = 'all', **kwargs):
         return self._api_client.get(REFERENCE_TARGET, actions_id, child='memberCreator', fields=fields, **kwargs)
 
     def get_action_organization(self, actions_id: str, fields: str = 'all', **kwargs):
@@ -60,3 +60,4 @@ class Actions:
 
     def delete_reaction(self, action_id: str, reaction_id: str, **kwargs):
         return self._api_client.delete(REFERENCE_TARGET, action_id, child='reactions', child_id=reaction_id, **kwargs)
+    

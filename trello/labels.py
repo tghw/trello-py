@@ -32,5 +32,3 @@ class Labels:
 
     def delete_label(self, label_id: str, **kwargs):
         return self._api_client.delete(REFERENCE_TARGET, label_id, **kwargs)
-
-

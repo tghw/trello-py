@@ -41,4 +41,3 @@ class CustomFields:
 
     def delete_customfield_option(self, customfields_id: str, field_option_id: str, **kwargs):
         return self._api_client.delete(REFERENCE_TARGET, customfields_id, child='options', child_id=field_option_id)
-

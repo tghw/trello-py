@@ -47,5 +47,3 @@ class Notification:
         return self._api_client.put(REFERENCE_TARGET, notification_id, child='unread', value=value, **kwargs)
 
     ### Delete Section ###
-
-

@@ -13,15 +13,15 @@ class CustomAPIError(Exception):
 
 def _parent_check(parent, target_id, required_target_id):
     if parent is None:
-        raise ValueError("Parent target not entered. Example: boards, list, cards")
+        raise ValueError("Parent target not entered. Example: boards, list, cards.")
     elif not isinstance(parent, str):
-        raise TypeError("parent parameter not in the right form. Must be (str)")
+        raise TypeError("Parent parameter not in the right form. Must be (str).")
 
     if required_target_id:
         if target_id is None:
-            raise ValueError("id of the parent target not parsed. Check value entered. Refer to Trello REST Document for details")
+            raise ValueError("ID of the parent target not parsed. Check value entered. Refer to Trello REST Document for details.")
         elif not isinstance(target_id, str):
-            raise TypeError("id of the parent target is not in the right form. Must be (str)")
+            raise TypeError("ID of the parent target is not in the right form. Must be (str).")
 
 
 def _raise_or_data(resp):

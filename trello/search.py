@@ -21,5 +21,3 @@ class Search:
     ### Put Section ###
 
     ### Delete Section ###
-
-

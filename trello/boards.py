@@ -127,6 +127,3 @@ class Boards:
 
     def disable_powerup(self, board_id: str, plugin_id: str, **kwargs):
         return self._api_client.delete(REFERENCE_TARGET, board_id, child='boardPlugins', child_id=plugin_id, **kwargs)
-
-
-

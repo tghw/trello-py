@@ -125,4 +125,3 @@ class Cards:
 
     def delete_card_checkList(self, card_id: str, idChecklist: str):
         return self._api_client.delete(REFERENCE_TARGET, card_id, child='checklists', child_id=idChecklist)
-

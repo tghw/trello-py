@@ -104,4 +104,3 @@ class Members:
         return self._api_client.put(REFERENCE_TARGET, username_or_id, child='notificationsChannelSettings', blockedKeys=blackedKeys, channel=channel, **kwargs)
 
     ### Delete Section ###
-
