@@ -4,7 +4,6 @@ REFERENCE_TARGET = 'webhooks'
 
 
 class Webhooks:
-    __module__ = 'trello'
 
     def __init__(self, apikey, token):
         self._api_client = APIClient(apikey, token)
